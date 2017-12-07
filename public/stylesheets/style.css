@@ -1,0 +1,68 @@
+html,
+body{
+	height: 100%;
+}
+body{
+	padding: 0px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.center{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.container{
+	height: 100%;
+	width: 100%;
+}
+.wrapper{
+	width: 500px;
+	height: 500px;
+	border: 1px solid #EEE;
+	box-shadow: 0px 0px 2px rgba(0, 0, 0, .1);
+	border-radius: 5px;
+}
+
+.icon-wrapper{
+	height: 180px;
+	box-sizing: border-box;
+	padding-top: 60px;
+}
+.title-heading{
+	height: 100px;
+	font-size: 60px;
+	font-weight: bold;
+	color: #2980b9;
+	align-items: flex-end;
+}
+.title-description{
+	color: #3498db;
+	font-size: 20px;
+}
+.github-btn-container{
+	height: 120px;
+}
+.github-btn{
+	padding: 8px 14px;
+	height: 42px;
+	box-sizing: border-box;
+	border: 1px solid rgba(0, 0, 0, .1);
+	border-radius: 2px;
+	font-size: 17px;
+	font-weight: bold;
+	background-color: #9b59b6;
+	color: #FFF;
+	text-decoration: none;
+}
+.github-btn:hover{
+	background-color: #8e44ad;
+}
+.octicon-mark-github{
+	margin-right: 12px;
+}
+.octicon-mark-github>path{
+	fill: #F5F5F5;
+}
