@@ -1,0 +1,26 @@
+{
+	"name": "typ-app",
+	"version": "1.0.0",
+	"description": "A node js app boiler plate code with typescript.",
+	"scripts": {
+		"start": "node bin/server.js",
+		"tsc": "tsc",
+		"dev": "tsc -w"
+	},
+	"repository": "https://github.com/akgurjar/typ-app.git",
+	"author": "ashish gurjar <akp51081@gmail.com>",
+	"license": "GPL-3.0",
+	"private": false,
+	"devDependencies": {
+		"@types/express": "^4.0.39",
+		"@types/node": "^8.0.53",
+		"typescript": "^2.6.2"
+	},
+	"dependencies": {
+		"cookie-parser": "^1.4.3",
+		"ejs": "^2.5.7",
+		"express": "^4.16.2",
+		"morgan": "^1.9.0",
+		"serve-favicon": "^2.4.5"
+	}
+}
