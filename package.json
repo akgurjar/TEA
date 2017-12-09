@@ -1,7 +1,7 @@
 {
-	"name": "typ-app",
+	"name": "tea",
 	"version": "1.0.0",
-	"description": "A node js app boiler plate code with typescript.",
+	"description": "A Boilerplate Code for a Express App with support of Typescript.",
 	"scripts": {
 		"start": "node bin/server.js",
 		"tsc": "tsc",

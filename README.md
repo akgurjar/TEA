@@ -8,14 +8,12 @@ npm run dev
 ```
 It will start the typescript server to watch typescript file changes in app folder and transpile them into js files.
 
-### Build Project
-```
-npm run build
-```
-It will build your project file in a minified version.
-
 ### Run Express App
 ```
 npm start
 ```
 It will start your express app.
+
+---
+### Exclude app folder
+Add ```app``` folder in ```.gitignore``` file
