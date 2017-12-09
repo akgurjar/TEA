@@ -1,4 +1,4 @@
-![ScreenShot](https://drive.google.com/open?id=1WlPskPJlePi24sK3EdkP-ElxwOBPLE-h)
+![ScreenShot](https://raw.githubusercontent.com/akgurjar/TEA/master/public/screenshot.png)
 # TEA
 A Boilerplate Code for a Express App with support of Typescript.
 
