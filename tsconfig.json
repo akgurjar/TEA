@@ -2,9 +2,7 @@
     "compilerOptions": {
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "lib": [
-            "es6"
-        ],
+        "lib": [ "es6" ],
         "module": "commonjs",
         "moduleResolution": "node",
         "noImplicitAny": true,
@@ -13,6 +11,14 @@
         "removeComments": false,
         "sourceMap": false,
         "suppressImplicitAnyIndexErrors": true,
-        "target": "es6"
-    }
+        "target": "es6",
+        "typeRoots" : [ 
+            "./node_modules/@types", 
+            "./typings/*"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
 }
