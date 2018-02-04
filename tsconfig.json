@@ -1,18 +1,18 @@
 {
-	"compilerOptions": {
-		"target": "es6",
-		"module": "commonjs",
-		"outDir": ".",
-		"sourceMap": false
-	},
-	"files": [
-		"./node_modules/@types/node/index.d.ts"
-	],
-	"include": [
-		"app/*.ts",
-		"app/**/*.ts"
-	],
-	"exclude": [
-		"node_modules"
-	]
+    "compilerOptions": {
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": [
+            "es6"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "pretty": true,
+        "removeComments": false,
+        "sourceMap": false,
+        "suppressImplicitAnyIndexErrors": true,
+        "target": "es6"
+    }
 }
