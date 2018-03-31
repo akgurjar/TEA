@@ -6,7 +6,7 @@
 		"start": "ts-node --fast ./bin/server.ts",
 		"dev": "nodemon --exec 'ts-node --cache-directory .tscache' ./bin/server.ts"
 	},
-	"repository": "https://github.com/akgurjar/typ-app.git",
+	"repository": "https://github.com/akgurjar/TEA.git",
 	"author": "ashish gurjar <akp51081@gmail.com>",
 	"license": "GPL-3.0",
 	"private": false,
