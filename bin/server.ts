@@ -1,5 +1,5 @@
 import app from '../app';
-import { Server, createServer, IncomingMessage, ServerResponse } from 'http';
+import { Server } from 'http';
 import * as Debug from 'debug';
 const debug = Debug('typ-app:server');
 
@@ -37,7 +37,7 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val) {
+function normalizePort(val: any) {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
