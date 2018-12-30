@@ -7,7 +7,11 @@ const router: Router = Router();
 router.use("/api", api);
 
 router.get("/", function(req: Request, res: Response, next: NextFunction){
-	res.render("index");
+	res.render("client");
+});
+
+router.get("/admin/*", function(req: Request, res: Response, next: NextFunction){
+	res.render("admin");
 });
 
 

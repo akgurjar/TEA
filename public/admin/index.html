@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AdminPanel</title>
+  <base href="/admin/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    html, body {
+      height: 100%;
+      --theme-color: #03a9f4;
+      --loader-size: 100px;
+    }
+    body {
+      margin: 0;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      background-color: #F5F5F5;
+      overflow: hidden;
+    }
+    .content--center {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+    .loader__container {
+      height: 100%;
+      width: 100%;
+    }
+    .loader {
+      height: var(--loader-size);
+      width: var(--loader-size);
+      border-radius: 50%;
+      position: relative;
+    }
+    .loader::before {
+      content: '';
+      display: block;
+      height: 100%;
+      box-sizing: border-box;
+      border-width: calc(var(--loader-size) / 6);
+      border-style: solid;
+      border-color: transparent var(--theme-color);
+      border-radius: 50%;
+      animation: rotate-outer 1s linear infinite;
+    }
+    .loader::after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      box-sizing: border-box;
+      border-width: calc(var(--loader-size) / 6);
+      border-style: solid;
+      border-color: transparent var(--theme-color);
+      border-radius: 50%;
+      animation: rotate-inner 1s linear infinite;
+    }
+
+    @keyframes rotate-outer {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes rotate-inner {
+      from {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      to {
+        transform: translate(-50%, -50%) rotate(-360deg);
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="styles.303274b635355b48fc82.css"></head>
+<body>
+  <app-root>
+    <div class="loader__container content--center">
+      <div class="loader"></div>
+    </div>
+  </app-root>
+<script type="text/javascript" src="runtime.9f71e2f128dbd5487b8d.js"></script><script type="text/javascript" src="polyfills.f5ebc6e3ad8c2aef9845.js"></script><script type="text/javascript" src="main.0d769f66e25c98ed09f4.js"></script></body>
+</html>

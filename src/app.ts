@@ -17,16 +17,17 @@ import routes from './routes';
 const app: Application = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, '../views'));
+app.set('views', path.join(__dirname, '../public'));
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 
-app.use(favicon(path.join(__dirname, '../public', 'favicon.png')));
+app.use(favicon(path.join(__dirname, '../public/client', 'favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use('/admin', express.static(path.join(__dirname, '../public/admin')));
+app.use(express.static(path.join(__dirname, '../public/client')));
 
 app.use('/', routes);
 
@@ -54,7 +55,7 @@ app.use(function(err: any, req: Request, res: Response, next: NextFunction) {
 
 	// render the error page
 	res.status(err.status || 500);
-	res.render('error');
+	res.render('client/error');
 });
 
 export default app;

@@ -2,6 +2,8 @@
 import { prop, Typegoose, instanceMethod, pre, staticMethod, ModelType } from 'typegoose';
 import { environment, ErrorResponse, genToken } from '../utils';
 import { compare, hash, genSalt } from 'bcrypt';
+import { LOGIN, ACCOUNT } from '../constants';
+
 
 function passwordHook(this: Common, next: () => void) {
   (async () => {
@@ -29,9 +31,9 @@ export class Common extends Typegoose {
       if (await document.verifyPassword(password)) {
         return genToken({_id: document['_id']});
       }
-      throw(new ErrorResponse({statusCode: 401, message: 'Invalid Credencials !'}));
+      throw(new ErrorResponse({statusCode: 401, message: LOGIN.FAILED}));
     } else {
-      throw(new ErrorResponse({statusCode: 401, message: 'Not Registered!'}));
+      throw(new ErrorResponse({statusCode: 401, message: ACCOUNT.NOT_FOUND}));
     }
   }
 }
