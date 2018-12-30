@@ -1,13 +1,13 @@
 import app from '../app';
 import { Server } from 'http';
 import * as Debug from 'debug';
-const debug = Debug('typ-app:server');
+import { environment } from '../utils/env.util';
+const debug = Debug('tea-app:server');
 
 /**
  * Get port from environment and store in Express.
  */
-
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(environment.PORT || '3000');
 app.set('port', port);
 console.log("Listening on Port : " + port );
 

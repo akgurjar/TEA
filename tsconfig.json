@@ -1,5 +1,7 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "dist/",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "lib": [ "es6" ],
@@ -12,10 +14,7 @@
         "sourceMap": false,
         "suppressImplicitAnyIndexErrors": true,
         "target": "es6",
-        "typeRoots" : [ 
-            "./node_modules/@types", 
-            "./typings/*"
-        ]
+        "typeRoots" : ["./node_modules/@types"]
     },
     "exclude": [
         "node_modules",

@@ -1,13 +1,14 @@
-import * as express from 'express';
 import { Router, Request, Response, NextFunction } from 'express';
+import api from './api';
 
-const router: Router = express.Router();
+const router: Router = Router();
+
+// Api Routes
+router.use("/api", api);
 
 router.get("/", function(req: Request, res: Response, next: NextFunction){
 	res.render("index");
 });
 
-import users from './users';
-router.use("/users", users);
 
 export default router;

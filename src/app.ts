@@ -6,24 +6,27 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as ejs from 'ejs';
+import { connect, connection } from 'mongoose';
+import { environment, bootstrapApp } from './utils';
 
 import { Application, Request, Response, NextFunction } from 'express';
 
 import routes from './routes';
 
+
 const app: Application = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../views'));
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 
-app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
+app.use(favicon(path.join(__dirname, '../public', 'favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', routes);
 
@@ -33,6 +36,15 @@ app.use(function(req: Request, res: Response, next: NextFunction) {
 	err.status = 404;
 	next(err);
 });
+
+// connect mongodb
+connect(environment.MONGODB_URI, {useNewUrlParser: true});
+connection.once('open', function() {
+	console.log('Database Connected');
+	bootstrapApp();
+});
+
+
 
 // error handler
 app.use(function(err: any, req: Request, res: Response, next: NextFunction) {
