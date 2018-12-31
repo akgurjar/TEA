@@ -401,16 +401,16 @@ THE SOFTWARE.
 
 @angular/material/toolbar
 
-@angular/material/card
+@angular/material/progress-bar
+
+@angular/material/checkbox
+
+@angular/material/table
 
 @angular/material/core
 
 @angular/material/select
 
 @angular/material/paginator
-
-@angular/material/checkbox
-
-@angular/material/table
 
 @angular/material/datepicker
