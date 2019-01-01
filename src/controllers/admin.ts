@@ -1,24 +1,32 @@
-import { Response, Request } from "express";
-import { admin } from '../services/admin.service';
-import { ErrorResponse, RequestHandler } from "../utils";
-import { LOGIN } from '../constants';
+import { Response, Request, NextFunction } from "express";
+import { ErrorResponse, bindResponse, respond } from "../utils";
+import { authenticate } from 'passport';
+import { admin } from "../services/admin.service";
+import { ERROR } from '../constants';
 
 export const adminController = {
-    login(req: App.IRequest<Admin.Credentials>, res: Response) {
-        const respond = RequestHandler.bindResponse(res);
-        admin.authenticate(req.data.username, req.data.password)
-        .then(token => {
-            if (token) {
+    login(req: Request, res: Response, next: NextFunction) {
+        const respond = bindResponse(res);
+        authenticate('admin-login', function(error: ErrorResponse, token, info) {
+            if (error) {
+                respond(error);
+            } else {
                 respond({
                     statusCode: 200,
-                    message: LOGIN.SUCCESS
+                    message: info.message
                 }, {token});
             }
-        }).catch((error: ErrorResponse) => {
-            respond(error);
-        });
+        })(req, res, next);
     },
     validateToken(req: Request, res: Response) {
+        // console.log(req.user);
         res.sendStatus(200);
+    },
+    fetchProfile(req: Request, res: Response) {
+        admin.details(req.user).then(result => {
+            respond(res, { statusCode: 200, message: 'Fetch SuccessFull'}, result);
+        }).catch(err => {
+            respond(res, {statusCode: 500, message: ERROR.INTERNAL });
+        });
     }
 };

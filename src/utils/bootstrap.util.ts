@@ -7,7 +7,7 @@ export async function bootstrapApp() {
         const admin = new Admin({
             email: 'admin@gmail.com',
             password: 'asdfghjkl',
-            name: 'Admin'
+            name: 'Rcc Admin'
         });
         const result = await admin.save();
         return result;

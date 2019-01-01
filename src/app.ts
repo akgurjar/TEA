@@ -11,6 +11,8 @@ import { environment, bootstrapApp } from './utils';
 
 import { Application, Request, Response, NextFunction } from 'express';
 
+import './passport/initial';
+
 import routes from './routes';
 
 

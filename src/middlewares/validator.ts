@@ -1,25 +1,20 @@
+import { JoiObject, validate } from "joi";
 import { Request, Response, NextFunction } from "express";
-import { verifyToken } from "../utils";
+import { respond } from "../utils";
+type DataResolver = string | ((req: Request) => any);
 
+export function validateSchema(schema: JoiObject, dataResolver: DataResolver){
+    return (req: Request, res: Response, next: NextFunction) => {
+        // console.log('Validating Schema');
+        const data = typeof dataResolver === 'function' ? dataResolver(req) : req[dataResolver];
 
-export function validateAdminToken(req: Request, res: Response, next: NextFunction) {
-    validateToken(req).then((data) => {
-        next();
-    }).catch((error) => {
-        console.log(error);
-        res.sendStatus(401);
-    });
-}
-
-
-export async function validateToken(req: Request) {
-    const header = req.header('Authorization');
-    console.log(header);
-    if (header) {
-        const pair = header.split(' ');
-        if (pair[0] === 'Bearer') {
-            return verifyToken(pair[1]);
-        }
+        validate(data, schema)
+        .then((validatedData) => {
+            req['data'] = validatedData;
+            next();
+        }).catch((error) => {
+            const message = error.details[0].message.split('"').join("");
+            respond(res, { message, statusCode: 400 });
+        });
     }
-    return null;
 }

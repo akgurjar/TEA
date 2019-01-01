@@ -1,18 +1,20 @@
 import { Router } from 'express';
 import { AdminSchema } from './schema/admin.schema';
-import { RequestHandler } from '../../../utils';
+// import { val } from '../../../utils';
 import { adminController } from '../../../controllers';
-import { validateAdminToken } from '../../../middlewares';
+import { validateSchema } from '../../../middlewares';
+import { authenticate } from 'passport';
+
 const router: Router = Router();
 
-router.route('/')
-    .head(validateAdminToken, adminController.validateToken)
-    // .get();
+const secureRouter: Router = Router();
 
-router.post(
-    '/authenticate',
-    RequestHandler.validate(AdminSchema.login, 'body'),
-    <any>adminController.login
-);
+secureRouter.route('/')
+    .head(adminController.validateToken)
+    .get(adminController.fetchProfile);
+
+router.post('/authenticate', validateSchema(AdminSchema.login, 'body'), adminController.login);
+
+router.use('/', authenticate('admin-token', { session: false }), secureRouter);
 
 export default router;
