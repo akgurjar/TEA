@@ -1,4 +1,3 @@
-/// <reference path="../../typings/Index.ts" />
 
 import { Response } from "express";
 

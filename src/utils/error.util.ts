@@ -1,12 +1,8 @@
-/// <reference path="../../typings/Index.ts" />
 
 
-
-export class ErrorResponse {
-    statusCode: number;
-    message: string;
-    constructor(info: App.ErrorResponseInfo) {
-        this.statusCode = info.statusCode || 500;
-        this.message = info.message;
+export class ResponseError extends Error {
+    name = 'ResponseError';
+    constructor(public status: number, message: string) {
+        super(message);
     }
 }

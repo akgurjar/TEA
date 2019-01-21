@@ -14,7 +14,10 @@
         "sourceMap": false,
         "suppressImplicitAnyIndexErrors": true,
         "target": "es6",
-        "typeRoots" : ["./node_modules/@types"]
+        "typeRoots" : [
+            "./node_modules/@types",
+            "./typings/index.d.ts"
+        ]
     },
     "exclude": [
         "node_modules",
