@@ -2,7 +2,7 @@
 
 
 declare namespace Express {
-    export interface ValidatedRequest extends Request {
-        // tokenId
+    export interface Request {
+        data: any;
     }
 }

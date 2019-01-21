@@ -1,7 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { ErrorResponse, bindResponse, respond } from "../utils";
 import { authenticate } from 'passport';
-import { admin } from "../services/admin.service";
+import { admin, user } from "../services";
 import { ERROR } from '../constants';
 
 export const adminController = {
@@ -27,6 +27,14 @@ export const adminController = {
             respond(res, { statusCode: 200, message: 'Fetch SuccessFull'}, result);
         }).catch(err => {
             respond(res, {statusCode: 500, message: ERROR.INTERNAL });
+        });
+    },
+    userList(req: Request, res: Response) {
+        console.log(req.data);
+        // res.send('listening');
+        user.list(req.data).then(result => {
+            console.log(result);
+            respond(res, {statusCode: 200, message: 'Fetch Successfull'}, result);
         });
     }
 };

@@ -5,7 +5,7 @@ type DataResolver = string | ((req: Request) => any);
 
 export function validateSchema(schema: JoiObject, dataResolver: DataResolver){
     return (req: Request, res: Response, next: NextFunction) => {
-        // console.log('Validating Schema');
+        console.log('Validating Schema');
         const data = typeof dataResolver === 'function' ? dataResolver(req) : req[dataResolver];
 
         validate(data, schema)

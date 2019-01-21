@@ -15,5 +15,13 @@ declare namespace App {
         statusCode?: number;
         message: string;
     }
+    export interface Pagination {
+        pageSize: number;
+        pageIndex: number;
+    }
+    export interface Listing extends Pagination {
+        searchText?: string;
+        [key: string]: any;
+    }
 }
 
