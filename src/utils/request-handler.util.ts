@@ -18,10 +18,10 @@ export const RequestHandler = {
                 data = req[dataResolver];
             }
             validate(data, schema)
-                .then((validatedData) => {
+                .then((validatedData: any) => {
                     req['data'] = validatedData;
                     next();
-                }).catch((error) => {
+                }).catch((error: any) => {
                     const message = error.details[0].message.split('"').join("");
                     this.respond(res, { message, statusCode: 400 });
                 });

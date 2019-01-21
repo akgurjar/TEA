@@ -1,7 +1,7 @@
 import { prop } from 'typegoose';
-import { Common } from './common.model';
+import { Auth } from './auth.model';
 
-class Admin extends Common {
+class Admin extends Auth {
   @prop({
     required: true
   })

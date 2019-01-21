@@ -15,5 +15,14 @@ declare namespace App {
         statusCode?: number;
         message: string;
     }
+    export interface PaginateOptions {
+        pageIndex: number;
+        pageSize: number
+    }
 }
+// declare class ResponseError extends Error {
+//     constructor(public status: number, message: string) {
+//         super(message);
+//     }
+// } 
 
