@@ -1,15 +1,13 @@
 
-import Admin from '../models/admin.model';
-
+import {Admin} from '../models/admin';
+import * as Service from '../service';
 
 export async function bootstrapApp() {
-    if (!await Admin.countDocuments().exec()) {
-        const admin = new Admin({
+    if (!await Service.exists(Admin, {})) {
+        return await Service.save(Admin , {
             email: 'admin@gmail.com',
             password: 'asdfghjkl',
             name: 'Rcc Admin'
         });
-        const result = await admin.save();
-        return result;
     }
 }

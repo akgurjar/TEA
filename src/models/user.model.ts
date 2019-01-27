@@ -1,38 +1,22 @@
-import { prop } from 'typegoose';
-import { Auth } from './auth.model';
 
-class User extends Auth {
-    @prop({
-        required: true,
-        index: true
-    })
-    name: string;
-    @prop({
-        required: true,
-        index: true
-    })
-    email: string;
-    @prop({
-        default: null
-    })
-    photo: string;
-    @prop({
-        default: 0
-    })
-    status: number;
+import { Typegoose, prop } from 'typegoose';
+// import { passwordHook } from '../services';
+
+// @pre<Admin>('save', passwordHook)
+class User extends Typegoose {
     @prop({
         required: true
     })
-    dob: Date;
+    email: string;
     @prop({
-        default: new Date().toUTCString()
+        required: true
     })
-    createdOn: Date;
-    @prop({
-        default: new Date().toUTCString()
-    })
-    updatedOn: Date;
-    // @staticMethod()
+    password: string;
+    @prop()
+    photoUrl: string
+    @prop()
+    displayName: string
 }
-  
+
+
 export default new User().getModelForClass(User);
