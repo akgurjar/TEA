@@ -1,7 +1,6 @@
 import { Router } from 'express';
-import { AdminSchema } from './schema';
 import { adminController } from '../../../controllers';
-import { validateSchema } from '../../../middlewares';
+import * as Validators from '../../../validators';
 import { authenticate } from 'passport';
 
 const router: Router = Router();
@@ -21,7 +20,7 @@ secureRouter.route('/')
 
 // secureRouter.use('/users', userRouter);
 
-router.post('/authenticate', validateSchema(AdminSchema.login, 'body'), adminController.login);
+router.post('/authenticate', Validators.Admin.login, adminController.login);
 
 router.use('/', authenticate('admin-token', { session: false }), secureRouter);
 
