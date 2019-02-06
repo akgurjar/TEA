@@ -4,23 +4,14 @@ import { validateSchema } from '../middlewares/validator';
 
 
 export const Validators = {
-    get login() {
-        const schema = Joi.object().keys({
-            email: Email.required(),
-            password: Password.required()
-        });
-        return validateSchema(schema, 'body');
-    },
-    get forgot() {
-        const schema = Joi.object().keys({
-            email: Email.required()
-        });
-        return validateSchema(schema, 'body');
-    },
-    get reset() {
-        const schema = Joi.object().keys({
-            password: Password.required()
-        });
-        return validateSchema(schema, 'body');
-    }
+    login: validateSchema(Joi.object().keys({
+        email: Email.required(),
+        password: Password.required()
+    }), 'body'),
+    forgot: validateSchema(Joi.object().keys({
+        email: Email.required(),
+    }), 'body'),
+    reset: validateSchema(Joi.object().keys({
+        password: Password.required()
+    }), 'body')
 };
