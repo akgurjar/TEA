@@ -12,7 +12,7 @@ export async function existsId(model: Model<Document>, id: string): Promise<bool
     });
 }
 
-export async function save(model: Model<Document>, data: any) {
+export async function save(model: Model<Document>, data: any): Promise<boolean> {
     const doc = new model(data);
-    return await doc.save();
+    return !!await doc.save();
 }

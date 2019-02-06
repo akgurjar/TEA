@@ -17,6 +17,7 @@ export const Validators = {
     create: validateSchema(Joi.object().keys({
         email: Email.required(),
         password: Password.required(),
-        name: String.required()
+        displayName: String.required(),
+        dob: String.isoDate()
     }), 'body')
 };

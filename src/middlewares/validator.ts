@@ -13,7 +13,6 @@ export function validateSchema(schema: JoiObject, dataResolver: DataResolver){
             req['data'] = validatedData;
             next();
         }).catch((error) => {
-            console.log(error.details[0].path);
             const message = error.details[0].message.split('"').join("");
             Respond.error(res, new ResponseError(400, message))
         });

@@ -3,10 +3,6 @@ import * as Service from '../../service';
 
 
 export const adminSchema = new Schema({
-    uniqueId: {
-        type: String,
-        default: 'ADMIN'
-    },
     email: {
         required: true,
         type: String
@@ -20,6 +16,20 @@ export const adminSchema = new Schema({
     },
     photoUrl: {
         type: String
+    },
+    loginDetails: [{
+        clientAgent: String,
+        clientProxy: String,
+        clientIPAddr: String,
+        loginDate: Date
+    }],
+    createdOn: {
+        type: Date,
+        default: new Date()
+    },
+    updatedOn: {
+        type: Date,
+        default: new Date()
     }
 }, {
     collection: 'admins'
