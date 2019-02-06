@@ -19,5 +19,10 @@ declare namespace App {
         searchText?: string;
         [key: string]: any;
     }
+    export interface Bootstrap {
+        init() : Promise<void>;
+        bootstrapAdmin(): Promise<void>;
+        bootstrapCounters(): Promise<void>;
+    }
 }
 
