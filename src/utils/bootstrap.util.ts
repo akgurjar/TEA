@@ -1,16 +1,7 @@
 
-import { Admin } from '../models/admin';
+import { Admin, User } from '../models';
 import * as Service from '../service';
 
-export async function bootstrapApp() {
-    if (!await Service.exists(Admin, {})) {
-        return await Service.save(Admin , {
-            email: 'admin@gmail.com',
-            password: 'asdfghjkl',
-            name: 'Rcc Admin'
-        });
-    }
-}
 
 export const Bootstrap: App.Bootstrap = {
     async init(this: App.Bootstrap) {
@@ -29,6 +20,8 @@ export const Bootstrap: App.Bootstrap = {
         }
     },
     async bootstrapCounters() {
-        // global.counters.user
+        const user = await User.findOne({}).select({uniqueId: 1}).exec();
+        console.log(user);
+        // global.counters = {};
     }
 };

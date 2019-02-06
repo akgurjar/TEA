@@ -2,10 +2,10 @@ import { Schema } from "mongoose";
 import * as Service from '../../service';
 
 
-export const adminSchema = new Schema({
+export const userSchema = new Schema({
     uniqueId: {
         type: String,
-        default: 'ADMIN'
+        default: 'USER'
     },
     email: {
         required: true,
@@ -22,11 +22,11 @@ export const adminSchema = new Schema({
         type: String
     }
 }, {
-    collection: 'admins'
+    collection: 'users'
 });
 
-adminSchema.methods.verifyPassword = Service.verifyPassword;
-adminSchema.methods.existsId = Service.existsId;
-adminSchema.methods.exists = Service.exists;
+userSchema.methods.verifyPassword = Service.verifyPassword;
+userSchema.methods.existsId = Service.existsId;
+userSchema.methods.exists = Service.exists;
 
-adminSchema.pre('save', Service.passwordHook);
+userSchema.pre('save', Service.passwordHook);

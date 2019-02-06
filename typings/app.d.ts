@@ -1,7 +1,14 @@
 
 
-
 declare namespace App {
+    export interface Singleton<T> {
+        instance: T;
+        init(): Promise<void>;
+        initViewEngine(): void;
+        initDatabase(): Promise<void>;
+        initConfig(): void;
+        initRoutes(): void;
+    }
     export interface MetaResponse {
         statusCode: number;
         errorCode?: number;
