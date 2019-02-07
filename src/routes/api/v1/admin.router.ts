@@ -14,9 +14,8 @@ const secureRouter: Router = Router();
 // userRouter.get('/', validateSchema(UserSchema.list, 'query'), adminController.userList);
 // userRouter.post('/create', validateSchema(UserSchema.document, 'body'), userController.create);
 
-secureRouter.route('/')
-    .head(adminController.validateToken)
-    .get(adminController.fetchProfile);
+secureRouter.head('/token', adminController.validateToken);
+secureRouter.get('/details', adminController.fetchProfile);
 
 // secureRouter.use('/users', userRouter);
 

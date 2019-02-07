@@ -7,6 +7,10 @@ export interface UserDocument extends Document {
     password: string,
     displayName?: string,
     photoUrl?: string;
+    dob?: Date;
+    status: number;
+    createdOn: Date;
+    updatedOn: Date;
     verifyPassword(password: string): Promise<boolean>;
 }
 
