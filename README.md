@@ -14,5 +14,13 @@ $ npm run stag
 ## To start app on Staging server
 ```
 ---
-### Exclude app folder
-Add ```app``` folder in ```.gitignore``` file
+## Tech Stack
+* [Node.js](https://nodejs.org/en/) - A JavaScript runtime built on [Chrome's V8 JavaScript engine](https://v8.dev/).
+* [Typescript](https://www.typescriptlang.org/) - A typed superset of JavaScript that compiles to plain JavaScript.
+* [Express.js](https://expressjs.com/) - A Fast, unopinionated, minimalist web framework for [Node.js](https://nodejs.org/en/).
+* [MongoDB](https://www.mongodb.com/) - An open-source document based NoSQL database.
+* [Winston](https://github.com/winstonjs/winston/) - A simple and universal logging library with support for multiple transports.
+* [Joi]() - A Object schema description language and validator for JavaScript objects.
+---
+## License
+`GNU-v3`
