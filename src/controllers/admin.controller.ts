@@ -1,14 +1,14 @@
 import { Response, Request, NextFunction } from "express";
 import { ResponseError, Respond } from "../utils";
-import { authenticate } from 'passport';
-// import { ERROR } from '../constants';
-// import Admin from '../models/admin';
-// import User from '../models/user';
+import { authenticate } from "passport";
+// import { ERROR } from "../constants";
+// import Admin from "../models/admin";
+// import User from "../models/user";
 
 export const adminController = {
     login(req: Request, res: Response, next: NextFunction) {
         const respond = new Respond(res);
-        authenticate('admin-login', function(error: ResponseError, token, info) {
+        authenticate("admin-login", function(error: ResponseError, token, info) {
             if (error) {
                 respond.error(error);
             } else {
@@ -23,7 +23,7 @@ export const adminController = {
     fetchProfile(req: Request, res: Response) {
         // const respond = new Respond(res);
         // Admin.details(req.user).then(result => {
-        //     respond.success('', result);
+        //     respond.success("", result);
         // }).catch((err: ResponseError) => {
         //     respond.error(err);
         // });

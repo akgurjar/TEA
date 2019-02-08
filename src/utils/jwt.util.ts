@@ -1,5 +1,5 @@
-import { sign, verify } from 'jsonwebtoken';
-import { environment } from './env.util';
+import { sign, verify } from "jsonwebtoken";
+import { environment } from "./env.util";
 
 
 export function genToken(payload: {[key: string]: any}) {

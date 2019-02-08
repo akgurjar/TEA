@@ -3,6 +3,6 @@ import { UserDocument } from "./document";
 import { userSchema } from "./schema";
 
 
-export const User: Model<UserDocument> = model('users', userSchema);
+export const User: Model<UserDocument> = model("users", userSchema);
 
 

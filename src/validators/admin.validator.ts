@@ -1,17 +1,17 @@
-import * as Joi from 'joi';
-import { Email, Password } from './schemas';
-import { validateSchema } from '../middlewares/validator';
+import * as Joi from "joi";
+import { Email, Password } from "./schemas";
+import { validateSchema } from "../middlewares/validator";
 
 
 export const Validators = {
     login: validateSchema(Joi.object().keys({
         email: Email.required(),
         password: Password.required()
-    }), 'body'),
+    }), "body"),
     forgot: validateSchema(Joi.object().keys({
         email: Email.required(),
-    }), 'body'),
+    }), "body"),
     reset: validateSchema(Joi.object().keys({
         password: Password.required()
-    }), 'body')
+    }), "body")
 };

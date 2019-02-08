@@ -1,7 +1,7 @@
 
 
 export class ResponseError extends Error {
-    name = 'ResponseError';
+    name = "ResponseError";
     constructor(public status: number, message: string) {
         super(message);
     }

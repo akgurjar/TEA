@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import * as Service from '../../service';
+import * as Service from "../../service";
 
 
 export const adminSchema = new Schema({
@@ -32,11 +32,11 @@ export const adminSchema = new Schema({
         default: new Date()
     }
 }, {
-    collection: 'admins'
+    collection: "admins"
 });
 
 adminSchema.methods.verifyPassword = Service.verifyPassword;
 adminSchema.methods.existsId = Service.existsId;
 adminSchema.methods.exists = Service.exists;
 
-adminSchema.pre('save', Service.passwordHook);
+adminSchema.pre("save", Service.passwordHook);

@@ -1,14 +1,14 @@
 import { Response, Request, NextFunction } from "express";
 import { Respond, ResponseError } from "../utils";
-import { authenticate } from 'passport';
+import { authenticate } from "passport";
 import { User } from "../models/user";
-import { save } from '../service';
-import { ERROR, ACCOUNT } from '../constants';
+import { save } from "../service";
+import { ERROR, ACCOUNT } from "../constants";
 
 export const userController = {
     login(req: Request, res: Response, next: NextFunction) {
         const respond = new Respond(res);
-        authenticate('user-login', function(error: ResponseError, token, info) {
+        authenticate("user-login", function(error: ResponseError, token, info) {
             if (error) {
                 respond.error(error);
             } else {
@@ -22,7 +22,7 @@ export const userController = {
     fetchProfile(req: Request, res: Response) {
         // const respond = new Respond(res);
         // Admin.details(req.user).then(result => {
-        //     respond.success('', result);
+        //     respond.success("", result);
         // }).catch((err: ResponseError) => {
         //     respond.error(err);
         // });

@@ -13,7 +13,7 @@ export async function paginate(model: Model<any>, match: any): Promise<Api.Listi
                     $sum: 1
                 },
                 data: {
-                    $push: '$$ROOT'
+                    $push: "$$ROOT"
                 }
             }
         },

@@ -1,5 +1,5 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import api from './api';
+import { Router, Request, Response, NextFunction } from "express";
+import api from "./api";
 
 const router: Router = Router();
 

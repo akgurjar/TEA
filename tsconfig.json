@@ -17,7 +17,12 @@
         "typeRoots" : [
             "./node_modules/@types",
             "./typings/index.d.ts"
-        ]
+        ],
+        "paths": {
+            "~/*": [
+                "src/*"
+            ]
+        }
     },
     "exclude": [
         "node_modules",
