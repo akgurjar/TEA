@@ -5,13 +5,15 @@ A Boilerplate Code for a Express App to support Typescript with MongoDB.
 ## NPM Scripts
 ```sh
 $ npm start
-## To start app on production server 
+## To run app on production server 
 $ npm run local
-## To start app on local server and restart it after detection of file change
+## To run app on local server and restart it after detection of file change
 $ npm run dev
-## To start app on development server
+## To run app on development server
 $ npm run stag
-## To start app on Staging server
+## To run app on Staging server
+$ npm run lint
+## To run linting on app
 ```
 ---
 ## Tech Stack

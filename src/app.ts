@@ -1,15 +1,14 @@
+import * as bodyParser from "body-parser";
+import * as cookieParser from "cookie-parser";
+import { connect, connection } from "mongoose";
+import * as ejs from "ejs";
 import * as express from "express";
-import * as path from "path";
 import * as favicon from "serve-favicon";
 import * as logger from "morgan";
-import * as cookieParser from "cookie-parser";
-import * as bodyParser from "body-parser";
-import * as ejs from "ejs";
-import { connect, connection } from "mongoose";
+import * as path from "path";
 import { environment, Bootstrap, DbLoagger } from "./utils";
 
 import { Request, Application, Response, NextFunction } from "express";
-
 
 import "./passport/initial";
 
@@ -36,15 +35,15 @@ export const app: AppSingleton = {
 	 * Initialize the database connection with MongoDB
 	 */
 	initDatabase(): Promise<void> {
-		return new Promise<void>(function(resolve, reject) {
-			connection.once("open", async function() {
+		return new Promise<void>((resolve, reject) => {
+			connection.once("open", async () => {
 				DbLoagger.info("Database Connected");
 				await Bootstrap.init();
 				resolve();
 			});
 			try {
 				connect(environment.MONGODB_URI, {useNewUrlParser: true});
-			} catch(error) {
+			} catch (error) {
 				reject(error);
 			}
 		});
@@ -66,20 +65,20 @@ export const app: AppSingleton = {
 
 		this.instance.use("/", routes);
 
-		this.instance.use(function(req: Request, res: Response, next: NextFunction) {
-			var err: any = new Error("Not Found");
+		this.instance.use((req: Request, res: Response, next: NextFunction) => {
+			const err: any = new Error("Not Found");
 			err.status = 404;
 			next(err);
 		});
 
-		this.instance.use(function(err: any, req: Request, res: Response, next: NextFunction) {
+		this.instance.use((err: any, req: Request, res: Response, next: NextFunction) => {
 			// set locals, only providing error in development
 			res.locals.message = err.message;
 			res.locals.error = req.app.get("env") === "development" ? err : {};
-		
+
 			// render the error page
 			res.status(err.status || 500);
 			res.render("client/error");
 		});
-	}
+	},
 };

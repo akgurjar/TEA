@@ -1,38 +1,37 @@
 import { Schema } from "mongoose";
 import * as Service from "../../service";
 
-
 export const adminSchema = new Schema({
-    email: {
-        required: true,
-        type: String
-    },
-    password: {
-        required: true,
-        type: String
-    },
-    displayName: {
-        type: String
-    },
-    photoUrl: {
-        type: String
-    },
-    loginDetails: [{
-        clientAgent: String,
-        clientProxy: String,
-        clientIPAddr: String,
-        loginDate: Date
-    }],
-    createdOn: {
-        type: Date,
-        default: new Date()
-    },
-    updatedOn: {
-        type: Date,
-        default: new Date()
-    }
+	createdOn: {
+		default: new Date(),
+		type: Date,
+	},
+	displayName: {
+		type: String,
+	},
+	email: {
+		required: true,
+		type: String,
+	},
+	loginDetails: [{
+		clientAgent: String,
+		clientIPAddr: String,
+		clientProxy: String,
+		loginDate: Date,
+	}],
+	password: {
+		required: true,
+		type: String,
+	},
+	photoUrl: {
+		type: String,
+	},
+	updatedOn: {
+		default: new Date(),
+		type: Date,
+	},
 }, {
-    collection: "admins"
+	collection: "admins",
 });
 
 adminSchema.methods.verifyPassword = Service.verifyPassword;
