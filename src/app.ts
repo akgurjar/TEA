@@ -6,7 +6,7 @@ import * as cookieParser from "cookie-parser";
 import * as bodyParser from "body-parser";
 import * as ejs from "ejs";
 import { connect, connection } from "mongoose";
-import { environment, Bootstrap } from "./utils";
+import { environment, Bootstrap, DbLoagger } from "./utils";
 
 import { Request, Application, Response, NextFunction } from "express";
 
@@ -38,7 +38,7 @@ export const app: AppSingleton = {
 	initDatabase(): Promise<void> {
 		return new Promise<void>(function(resolve, reject) {
 			connection.once("open", async function() {
-				console.log("Database Connected");
+				DbLoagger.info("Database Connected");
 				await Bootstrap.init();
 				resolve();
 			});

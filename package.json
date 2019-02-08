@@ -47,8 +47,8 @@
 		"ts-node": "7.0.1",
 		"tsconfig-paths": "^3.7.0",
 		"tslint": "^5.12.1",
-		"typegoose": "^5.4.1",
-		"typescript": "^3.2.2"
+		"typescript": "^3.2.2",
+		"winston": "^3.2.1"
 	},
 	"devDependencies": {
 		"ts-node-dev": "^1.0.0-pre.32"

@@ -1,7 +1,7 @@
 import { app } from "../app";
 import { Server } from "http";
 import * as Debug from "debug";
-import { environment } from "../utils/env.util";
+import { environment, Console } from "../utils";
 const debug = Debug("tea-app:server");
 
 
@@ -12,7 +12,6 @@ const debug = Debug("tea-app:server");
 
 const port = normalizePort(environment.PORT || "3000");
 app.instance.set("port", port);
-console.log("Listening on Port : " + port );
 
 /**
  * Create HTTP server.
@@ -24,7 +23,9 @@ const server: Server = new Server(app.instance);
  * Listen on provided port, on all network interfaces.
  */
 app.init().then(() => {
-	server.listen(port);
+	server.listen(port, () => {
+		Console.info(`Listening on port ${port}`);
+	});
 })
 server.on("error", onError);
 server.on("listening", onListening);

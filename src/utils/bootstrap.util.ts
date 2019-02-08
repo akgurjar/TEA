@@ -1,10 +1,11 @@
 
 import { Admin, User } from "../models";
 import * as Service from "../service";
-
+import { Console } from "./logger.util";
 
 export const Bootstrap: App.Bootstrap = {
     async init(this: App.Bootstrap) {
+        Console.info("Bootstrap Started");
         await Promise.all([
             this.bootstrapAdmin(),
             this.bootstrapCounters(),
@@ -15,8 +16,11 @@ export const Bootstrap: App.Bootstrap = {
             await Service.save(Admin , {
                 email: "admin@gmail.com",
                 password: "asdfghjkl",
-                name: "Rcc Admin"
+                displayName: "Rcc Admin"
             });
+            Console.info("Admin Account Created");
+        } else {
+            Console.info("Admin Already Present");
         }
     },
     async bootstrapCounters() {
