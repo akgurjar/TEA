@@ -13,7 +13,7 @@ export interface AdminDocument extends Document {
 	displayName?: string;
 	photoUrl?: string;
 	loginDetails: LoginDetail[];
-	createdOn: Date;
-	updatedOn: Date;
+	createdAt: Date;
+	updatedAt: Date;
 	verifyPassword(password: string): Promise<boolean>;
 }

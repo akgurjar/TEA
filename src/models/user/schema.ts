@@ -2,10 +2,6 @@ import { Schema } from "mongoose";
 import * as Service from "../../service";
 
 export const userSchema = new Schema({
-	createdOn: {
-		default: new Date(),
-		type: Date,
-	},
 	displayName: {
 		type: String,
 	},
@@ -32,12 +28,9 @@ export const userSchema = new Schema({
 		default: null,
 		type: String,
 	},
-	updatedOn: {
-		default: new Date(),
-		type: Date,
-	},
 }, {
 	collection: "users",
+	timestamps: true,
 });
 
 userSchema.methods.verifyPassword = Service.verifyPassword;

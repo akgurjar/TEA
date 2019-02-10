@@ -6,11 +6,11 @@ import * as express from "express";
 import * as favicon from "serve-favicon";
 import * as logger from "morgan";
 import * as path from "path";
-import { environment, Bootstrap, DbLoagger } from "./utils";
+import { environment, Bootstrap, DbLoagger, ResponseError } from "./utils";
 
 import { Request, Application, Response, NextFunction } from "express";
 
-import "./passport/initial";
+import "./strategies";
 
 import routes from "./routes";
 
@@ -60,22 +60,18 @@ export const app: AppSingleton = {
 		this.instance.use(cookieParser());
 	},
 	initRoutes(this: AppSingleton) {
+		this.instance.use("/", routes);
 		this.instance.use("/admin", express.static(path.join(__dirname, "../public/admin")));
 		this.instance.use(express.static(path.join(__dirname, "../public/client")));
 
-		this.instance.use("/", routes);
-
 		this.instance.use((req: Request, res: Response, next: NextFunction) => {
-			const err: any = new Error("Not Found");
-			err.status = 404;
-			next(err);
+			next(new ResponseError(404, "Not Found"));
 		});
 
-		this.instance.use((err: any, req: Request, res: Response, next: NextFunction) => {
+		this.instance.use((err: ResponseError, req: Request, res: Response, next: NextFunction) => {
 			// set locals, only providing error in development
 			res.locals.message = err.message;
 			res.locals.error = req.app.get("env") === "development" ? err : {};
-
 			// render the error page
 			res.status(err.status || 500);
 			res.render("client/error");

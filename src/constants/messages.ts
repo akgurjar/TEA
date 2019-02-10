@@ -1,6 +1,7 @@
 
 export const ACCOUNT = {
-	CREATED: "Account created Successfully.",
+	CREATED: "Account created successfully.",
+	DETAILS: "Account details fetch successful.",
 	NOT_FOUND: "Account does not exists.",
 };
 
@@ -11,4 +12,9 @@ export const LOGIN = {
 
 export const ERROR = {
 	INTERNAL: "Internal server error.",
+};
+
+export const TOKEN = {
+	INVALID: "Token is not valid.",
+	VALID: "Token is verified.",
 };

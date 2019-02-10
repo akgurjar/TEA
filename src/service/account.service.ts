@@ -5,12 +5,17 @@ export async function exists(model: Model<Document>, query: any): Promise<boolea
 }
 
 export async function existsId(model: Model<Document>, id: string): Promise<boolean> {
-	return !!await model.countDocuments({
+	const resp = await model.countDocuments({
 		_id: new Types.ObjectId(id),
 	});
+	return !!resp;
 }
 
 export async function save(model: Model<Document>, data: any): Promise<boolean> {
 	const doc = new model(data);
 	return !!await doc.save();
+}
+
+export async function details(model: Model<Document>, id: string) {
+	return await model.findById(id).select({password: 0}).exec();
 }

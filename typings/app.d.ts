@@ -30,4 +30,11 @@ declare namespace App {
 		bootstrapAdmin(): Promise<void>;
 		bootstrapCounters(): Promise<void>;
 	}
+	export interface AuthorizedUser {
+		_id: string;
+		ref: string;
+	}
+	export interface TokenPayload extends AuthorizedUser {
+		iat: number;
+	}
 }

@@ -36,7 +36,7 @@ export async function authToken(
 				document.loginDetails.push(info);
 				document.save();
 			}
-			return genToken({_id: document._id});
+			return genToken({_id: document._id, ref: model.collection.name});
 	  }
 	  throw(new ResponseError(401, LOGIN.FAILED));
 	} else {

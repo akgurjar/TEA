@@ -14,13 +14,12 @@ const secureRouter: Router = Router();
 // userRouter.get("/", validateSchema(UserSchema.list, "query"), adminController.userList);
 // userRouter.post("/create", validateSchema(UserSchema.document, "body"), userController.create);
 
-secureRouter.head("/token", adminController.validateToken);
 secureRouter.get("/details", adminController.fetchProfile);
 
 // secureRouter.use("/users", userRouter);
 
 router.post("/authenticate", Validators.Admin.login, adminController.login);
 
-router.use("/", authenticate("admin-token", { session: false }), secureRouter);
+router.use("/", authenticate("token", { session: false }), secureRouter);
 
 export default router;
