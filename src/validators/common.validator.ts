@@ -3,9 +3,7 @@ import { JString } from "./schemas";
 import { validateSchema } from "../middlewares/validator";
 
 export const Validators = {
-	list: validateSchema(Joi.object().keys({
-		pageIndex: Joi.number().default(0),
-		pageSize: Joi.number().default(10),
-		searchText: JString.default(""),
-	}), "query"),
+	entity: validateSchema(Joi.object().keys({
+		id: JString.length(24).required(),
+	}), "query")
 };

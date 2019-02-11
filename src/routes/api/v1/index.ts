@@ -5,7 +5,7 @@ import { authenticate } from "passport";
 
 const router: Router = Router();
 
-router.use("/admin", admin);
+router.use("/admins", admin);
 router.use("/users", user);
 
 router.head(

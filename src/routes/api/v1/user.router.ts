@@ -8,10 +8,23 @@ const router: Router = Router();
 // secured router
 const secureRouter: Router = Router();
 
-secureRouter.get("/", Validators.Common.list, userController.list);
+// Get Users List
+secureRouter.get("/", Validators.User.list, userController.list);
 
-secureRouter.get("/details", userController.fetchProfile);
+// Get logined user profile
+secureRouter.get("/profile", userController.fetchProfile);
 
+// Entity Router
+const entityRouter = Router();
+
+entityRouter.route('/')
+.get(userController.fetchDetails)
+.post(userController.fetchDetails);
+
+// Access user with id
+secureRouter.use("/:id", Validators.Common.entity, entityRouter);
+
+// authenticate user
 router.post("/authenticate", Validators.User.login, userController.login);
 
 router.post("/create", Validators.User.create, userController.create);

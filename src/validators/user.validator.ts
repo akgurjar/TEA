@@ -1,5 +1,5 @@
 import * as Joi from "joi";
-import { JString, JEmail, JPassword } from "./schemas";
+import { JString, JEmail, JPassword, JList } from "./schemas";
 import { validateSchema } from "../middlewares/validator";
 
 export const Validators = {
@@ -19,4 +19,9 @@ export const Validators = {
 	reset: validateSchema(Joi.object().keys({
 		password: JPassword.required(),
 	}), "body"),
+	// 
+	list: validateSchema(JList.keys({
+		createdFrom: Joi.date(),
+		createdTo: Joi.date().optional().greater(Joi.ref('createdFrom'))
+	}), 'query'),
 };

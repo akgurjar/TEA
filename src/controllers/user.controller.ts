@@ -32,6 +32,19 @@ export const userController = {
 			respond.error(new ResponseError(401, TOKEN.INVALID));
 		}
 	},
+	fetchDetails(req: Request, res: Response) {
+		const respond = new Respond(res);
+		if (req.user && req.user.ref === "admins") {
+			Service.details(User, req.data.id)
+			.then((result) => {
+				respond.success(ACCOUNT.DETAILS, result);
+			}).catch((err: ResponseError) => {
+				respond.error(err);
+			});
+		} else {
+			respond.error(new ResponseError(401, TOKEN.INVALID));
+		}
+	},
 	create(req: Request, res: Response, next: NextFunction) {
 		Service.save(User, req.data).then((status: boolean) => {
 			if (status) {
@@ -44,6 +57,7 @@ export const userController = {
 		});
 	},
 	list(req: Request, res: Response) {
+		console.log(req.data);
 		const respond = new Respond(res);
 		Service.list(User, req.data).then((result) => {
 			respond.success("List Fetch Successfully", result);
