@@ -1,24 +1,24 @@
 
-import { use } from "passport";
-import { Strategy as JwtStrategy, ExtractJwt, VerifiedCallback } from "passport-jwt";
-import { Admin } from "../models/admin";
-import { User } from "../models/user";
-import { ERROR, ACCOUNT, TOKEN } from "../constants";
-import { environment, Console } from "../utils";
-import * as Service from "../service";
-import { Request } from "express";
-import { Model } from "mongoose";
+import { use } from 'passport';
+import { Strategy as JwtStrategy, ExtractJwt, VerifiedCallback } from 'passport-jwt';
+import { Admin } from '../models/admin';
+import { User } from '../models/user';
+import { ERROR, ACCOUNT, TOKEN } from '../constants';
+import { environment, Console } from '../utils';
+import * as Service from '../service';
+import { Request } from 'express';
+import { Model } from 'mongoose';
 
-use("token", new JwtStrategy({
+use('token', new JwtStrategy({
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 	passReqToCallback: true,
-	secretOrKey: environment.TOKEN_SECRET,
+	secretOrKey: environment.AUTH_TOKEN_SECRET,
 }, (req: Request, {_id, ref}: App.TokenPayload, done: VerifiedCallback) => {
 	let Collection: Model<any>;
-	if (ref === "admins") {
+	if (ref === 'admins') {
 		Collection = Admin;
 	}
-	if (ref === "users") {
+	if (ref === 'users') {
 		Collection = User;
 	}
 	if (!Collection) {
@@ -34,4 +34,4 @@ use("token", new JwtStrategy({
 	});
 }));
 
-Console.info("Token Strategy Started");
+Console.info('Token Strategy Started');

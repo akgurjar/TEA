@@ -1,5 +1,5 @@
-import { Schema } from "mongoose";
-import * as Service from "../../service";
+import { Schema } from 'mongoose';
+import * as Service from '../../service';
 
 export const userSchema = new Schema({
 	displayName: {
@@ -29,7 +29,7 @@ export const userSchema = new Schema({
 		type: String,
 	},
 }, {
-	collection: "users",
+	collection: 'users',
 	timestamps: true,
 });
 
@@ -37,7 +37,7 @@ userSchema.methods.verifyPassword = Service.verifyPassword;
 userSchema.methods.existsId = Service.existsId;
 userSchema.methods.exists = Service.exists;
 
-userSchema.pre("save", function(this: any, next: () => void) {
+userSchema.pre('save', function(this: any, next: () => void) {
 	Service.passwordHook.call(this).then(() => {
 		if (!this.uniqueId) {
 			this.uniqueId = `USR${++global.counters.user}`;

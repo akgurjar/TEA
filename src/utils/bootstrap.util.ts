@@ -1,11 +1,11 @@
 
-import { Admin, User } from "../models";
-import * as Service from "../service";
-import { Console } from "./logger.util";
+import { Admin, User } from '../models';
+import * as Service from '../service';
+import { Console } from './logger.util';
 
 export const Bootstrap: App.Bootstrap = {
 	async init(this: App.Bootstrap) {
-		Console.info("Bootstrap Started");
+		Console.info('Bootstrap Started');
 		await Promise.all([
 			this.bootstrapAdmin(),
 			this.bootstrapCounters(),
@@ -14,20 +14,20 @@ export const Bootstrap: App.Bootstrap = {
 	async bootstrapAdmin() {
 		if (!await Service.exists(Admin, {})) {
 			await Service.save(Admin , {
-				displayName: "Rcc Admin",
-				email: "admin@gmail.com",
-				password: "asdfghjkl",
+				displayName: 'Rcc Admin',
+				email: 'admin@gmail.com',
+				password: 'asdfghjkl',
 			});
-			Console.info("Admin Account Created");
+			Console.info('Admin Account Created');
 		} else {
-			Console.info("Admin Already Present");
+			Console.info('Admin Already Present');
 		}
 	},
 	async bootstrapCounters() {
 		const lastUser = await User.findOne({}).sort({uniqueId: -1}).select({uniqueId: 1, _id: 0}).exec();
 		let userCounter = 0;
 		if (lastUser) {
-			const userId = lastUser.uniqueId || "USR0";
+			const userId = lastUser.uniqueId || 'USR0';
 			userCounter = parseInt(userId.substr(3), 10);
 		}
 		global.counters = {

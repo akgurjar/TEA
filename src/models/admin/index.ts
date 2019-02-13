@@ -1,5 +1,5 @@
-import { Model, model } from "mongoose";
-import { AdminDocument } from "./document";
-import { adminSchema } from "./schema";
+import { Model, model } from 'mongoose';
+import { AdminDocument } from './admin.document';
+import { adminSchema } from './admin.schema';
 
-export const Admin: Model<AdminDocument> = model("admins", adminSchema);
+export const Admin: Model<AdminDocument> = model('admins', adminSchema);

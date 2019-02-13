@@ -1,4 +1,4 @@
-import { Model, Types, Document } from "mongoose";
+import { Model, Types, Document } from 'mongoose';
 
 export async function exists(model: Model<Document>, query: any): Promise<boolean> {
 	return !!await model.countDocuments(query);
@@ -19,3 +19,13 @@ export async function save(model: Model<Document>, data: any): Promise<boolean> 
 export async function details(model: Model<Document>, id: string) {
 	return await model.findById(id).select({password: 0}).exec();
 }
+
+export async function getId(model: Model<Document>, query: any): Promise<string | null> {
+	const result = await model.findOne(query).select({_id: 1});
+	if (result) {
+		return result._id;
+	}
+	return null;
+}
+
+export async function genMailToken() {}

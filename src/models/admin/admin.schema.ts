@@ -1,5 +1,5 @@
-import { Schema } from "mongoose";
-import * as Service from "../../service";
+import { Schema } from 'mongoose';
+import * as Service from '../../service';
 
 export const adminSchema = new Schema({
 	displayName: {
@@ -23,7 +23,7 @@ export const adminSchema = new Schema({
 		type: String,
 	}
 }, {
-	collection: "admins",
+	collection: 'admins',
 	timestamps: true,
 });
 
@@ -31,4 +31,4 @@ adminSchema.methods.verifyPassword = Service.verifyPassword;
 adminSchema.methods.existsId = Service.existsId;
 adminSchema.methods.exists = Service.exists;
 
-adminSchema.pre("save", Service.passwordHook);
+adminSchema.pre('save', Service.passwordHook);

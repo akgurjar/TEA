@@ -1,8 +1,8 @@
-import { Model } from "mongoose";
-import { genToken, ResponseError, environment } from "../utils";
-import { LOGIN, ACCOUNT } from "../constants";
-import { compare, genSalt, hash } from "bcrypt";
-import { Request } from "express";
+import { Model } from 'mongoose';
+import { genToken, ResponseError, environment } from '../utils';
+import { LOGIN, ACCOUNT } from '../constants';
+import { compare, genSalt, hash } from 'bcrypt';
+import { Request } from 'express';
 
 export async function authToken(
 	model: Model<any>,
@@ -14,13 +14,13 @@ export async function authToken(
 	if (req) {
 		let clientIPAddr: string;
 		let clientProxy: string;
-		const clientAgent: string = req.headers["user-agent"] || null;
+		const clientAgent: string = req.headers['user-agent'] || null;
 		if (req.headers.via) { // yes
-			clientIPAddr = req.headers["x-forwarded-for"] as string;
+			clientIPAddr = req.headers['x-forwarded-for'] as string;
 			clientProxy = req.headers.via;
 		} else { // no
 			clientIPAddr = req.connection.remoteAddress;
-			clientProxy = "none";
+			clientProxy = 'none';
 		}
 		info = {
 			clientAgent,
@@ -31,8 +31,12 @@ export async function authToken(
 	}
 	const document = await model.findOne(query);
 	if (document) {
+		// console.log(document);
 	  if (await document.verifyPassword(password)) {
 			if (info) {
+				if (document.loginDetails && document.loginDetails.length === 20) {
+					document.loginDetails.pop();
+				}
 				document.loginDetails.push(info);
 				document.save();
 			}
@@ -50,7 +54,8 @@ export async function verifyPassword(this: any, password: string): Promise<boole
 
 export async function passwordHook(this: any) {
 	const password = this.password;
-	if (this.isModified("password")) {
+	if (this.isModified('password')) {
+		console.log('password modified');
 		this.password = await hash(password, await genSalt(environment.SALT_ROUND));
 	}
 }

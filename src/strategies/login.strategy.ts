@@ -1,18 +1,18 @@
 
-import { use } from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
-import { Admin } from "../models/admin";
-import { LOGIN } from "../constants";
-import { ResponseError, Console } from "../utils";
-import * as Service from "../service";
-import { Request } from "express";
+import { use } from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { Admin } from '../models/admin';
+import { LOGIN } from '../constants';
+import { ResponseError, Console } from '../utils';
+import * as Service from '../service';
+import { Request } from 'express';
 
 use(
-	"admin-login",
+	'admin-login',
 	new LocalStrategy({
 		passReqToCallback: true,
-		passwordField: "password",
-		usernameField: "email",
+		passwordField: 'password',
+		usernameField: 'email',
 	}, (req: Request, email, password, done) => {
 		Service.authToken(Admin, {email}, password, req).then((token: string) => {
 			done(null, token, {message: LOGIN.SUCCESS});
@@ -22,4 +22,4 @@ use(
 	},
 ));
 
-Console.info("Login Strategy Started");
+Console.info('Login Strategy Started');

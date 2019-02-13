@@ -1,14 +1,14 @@
-import { Response, Request, NextFunction } from "express";
-import { Respond, ResponseError, Console } from "../utils";
-import { authenticate } from "passport";
-import { User } from "../models/user";
-import * as Service from "../service";
-import { ERROR, ACCOUNT, TOKEN } from "../constants";
+import { Response, Request, NextFunction } from 'express';
+import { Respond, ResponseError, Console } from '../utils';
+import { authenticate } from 'passport';
+import { User } from '../models/user';
+import * as Service from '../service';
+import { ERROR, ACCOUNT, TOKEN } from '../constants';
 
 export const userController = {
 	login(req: Request, res: Response, next: NextFunction) {
 		const respond = new Respond(res);
-		authenticate("user-login", (error: ResponseError, token, info) => {
+		authenticate('user-login', (error: ResponseError, token, info) => {
 			if (error) {
 				respond.error(error);
 			} else {
@@ -21,7 +21,7 @@ export const userController = {
 	},
 	fetchProfile(req: Request, res: Response) {
 		const respond = new Respond(res);
-		if (req.user && req.user.ref === "users") {
+		if (req.user && req.user.ref === 'users') {
 			Service.details(User, req.user._id)
 			.then((result) => {
 				respond.success(ACCOUNT.DETAILS, result);
@@ -34,7 +34,7 @@ export const userController = {
 	},
 	fetchDetails(req: Request, res: Response) {
 		const respond = new Respond(res);
-		if (req.user && req.user.ref === "admins") {
+		if (req.user && req.user.ref === 'admins') {
 			Service.details(User, req.data.id)
 			.then((result) => {
 				respond.success(ACCOUNT.DETAILS, result);
@@ -60,10 +60,10 @@ export const userController = {
 		console.log(req.data);
 		const respond = new Respond(res);
 		Service.list(User, req.data).then((result) => {
-			respond.success("List Fetch Successfully", result);
+			respond.success('List Fetch Successfully', result);
 		}).catch((error: ResponseError) => {
 			Console.error(error);
 		});
-		// res.send("Listing");
+		// res.send('Listing');
 	},
 };

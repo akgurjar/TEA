@@ -1,6 +1,6 @@
-import * as Joi from "joi";
-import { JString, JEmail, JPassword, JList } from "./schemas";
-import { validateSchema } from "../middlewares/validator";
+import * as Joi from 'joi';
+import { JString, JEmail, JPassword, JList } from './schemas';
+import { validateSchema } from '../middlewares/validator';
 
 export const Validators = {
 	/**
@@ -13,7 +13,7 @@ export const Validators = {
 		dob: JString.isoDate(),
 		email: JEmail.required(),
 		password: JPassword.required(),
-	}), "body"),
+	}), 'body'),
 	/**
 	 * @name forgot
 	 * @description It validate the request body with the schema.
@@ -21,7 +21,7 @@ export const Validators = {
 	 */
 	forgot: validateSchema(Joi.object().keys({
 		email: JEmail.required(),
-	}), "body"),
+	}), 'body'),
 	/**
 	 * @name list
 	 * @description It validate the request paramters with the schema.
@@ -29,12 +29,12 @@ export const Validators = {
 	 */
 	list: validateSchema(JList.keys({
 		createdFrom: Joi.date(),
-		createdTo: Joi.when("createdFrom", {
+		createdTo: Joi.when('createdFrom', {
 			is: Joi.exist(),
-			then: Joi.date().greater(Joi.ref("createdFrom")),
+			then: Joi.date().greater(Joi.ref('createdFrom')),
 		}),
 		status: Joi.number().allow(0, 1, 2, 3, 4),
-	}), "query"),
+	}), 'query'),
 	/**
 	 * @name login
 	 * @description It validate the request body with the schema.
@@ -43,7 +43,7 @@ export const Validators = {
 	login: validateSchema(Joi.object().keys({
 		email: JEmail.required(),
 		password: JPassword.required(),
-	}), "body"),
+	}), 'body'),
 	/**
 	 * @name reset
 	 * @description It validate the request body with the schema.
@@ -51,5 +51,5 @@ export const Validators = {
 	 */
 	reset: validateSchema(Joi.object().keys({
 		password: JPassword.required(),
-	}), "body"),
+	}), 'body'),
 };

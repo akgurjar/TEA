@@ -1,3 +1,3 @@
 
-import "./login.strategy";
-import "./token.strategy";
+import './login.strategy';
+import './token.strategy';

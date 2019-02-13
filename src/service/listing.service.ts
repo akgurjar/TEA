@@ -1,5 +1,5 @@
-import { Model } from "mongoose";
-import { Console } from "../utils";
+import { Model } from 'mongoose';
+// import { Console } from '../utils';
 
 export async function paginate(
 	model: Model<any>,
@@ -12,7 +12,7 @@ export async function paginate(
 			$group: {
 				_id: null,
 				data: {
-					$push: "$$ROOT",
+					$push: '$$ROOT',
 				},
 				total: {
 					$sum: 1,
@@ -24,7 +24,7 @@ export async function paginate(
 				_id: 0,
 				data: {
 					$slice: [
-						"$data",
+						'$data',
 						pageIndex * pageSize,
 						pageSize,
 					],
@@ -33,7 +33,7 @@ export async function paginate(
 			},
 		},
 	]);
-	Console.info(result);
+	// Console.info(result);
 	if (result.length === 0) {
 		result.push({
 			data: [],
@@ -54,7 +54,7 @@ export async function list(
 	const query: any = {};
 	if (options.searchText) {
 		query.displayName = {
-			$regex: new RegExp(options.searchText, "gi"),
+			$regex: new RegExp(options.searchText, 'gi'),
 		};
 	}
 	return await paginate(model, query, {pageIndex, pageSize});

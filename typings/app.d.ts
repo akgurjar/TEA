@@ -37,4 +37,13 @@ declare namespace App {
 	export interface TokenPayload extends AuthorizedUser {
 		iat: number;
 	}
+
+	export type MailType = 'forgot' | 'verify';
+	export interface Mailer {
+		account: any;
+		init(): Promise<void>;
+		transporter: any;
+		sendMail(type: MailType, to: string): Promise<void>;
+		genTemplate(name: string, data: any): Promise<string>;
+	}
 }
