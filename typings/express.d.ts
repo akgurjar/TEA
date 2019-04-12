@@ -3,7 +3,7 @@
 
 declare namespace Express {
 	export interface Request {
-		data: any;
+		data?: any;
 		user?: App.AuthorizedUser;
 	}
 	export type App = Express.Application;

@@ -6,19 +6,19 @@ export const ENVIRONMENT = process.env.NODE_ENV;
 
 switch (ENVIRONMENT) {
 	case 'production': {
-		envConfig('production.env');
+		envConfig('.env.production');
 		break;
 	}
 	case 'development': {
-		envConfig('development.env');
+		envConfig('.env.development');
 		break;
 	}
 	case 'staging': {
-		envConfig('staging.env');
+		envConfig('.env.staging');
 		break;
 	}
 	default: {
-		envConfig('local.env');
+		envConfig('.env.local');
 		break;
 	}
 }

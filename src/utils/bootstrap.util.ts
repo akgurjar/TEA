@@ -5,7 +5,7 @@ import { Console } from './logger.util';
 
 export const Bootstrap: App.Bootstrap = {
 	async init(this: App.Bootstrap) {
-		Console.info('Bootstrap Started');
+		Console.info('Bootstrapping App');
 		await Promise.all([
 			this.bootstrapAdmin(),
 			this.bootstrapCounters(),
