@@ -1,8 +1,8 @@
-import { app } from '../app';
+import { app } from '@src/app';
 import { Server } from 'http';
 import * as Debug from 'debug';
-import { environment, Console } from '../utils';
-const debug = Debug('tea-app:server');
+import { environment, Console } from '@src/utils';
+const debug = Debug('efarmer-app:server');
 
 /**
  * Get port from environment and store in Express.

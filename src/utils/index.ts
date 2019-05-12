@@ -6,3 +6,4 @@ export * from './jwt.util';
 export * from './response.util';
 export * from './logger.util';
 export * from './mailer.util';
+export * from './sms.util';

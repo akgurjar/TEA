@@ -7,7 +7,13 @@ declare namespace NodeJS {
 	export interface Counters {
 		user: number;
 	}
+	export interface Verification {
+		otp: string;
+		mobile: string;
+		countryCode: string;
+	}
 	export interface Global {
 		counters: Counters;
+		verifications: {[id: string]: Verification}
 	}
 }

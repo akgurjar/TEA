@@ -1,18 +1,24 @@
 import * as Joi from 'joi';
-import { JString, JEmail, JPassword, JList } from './schemas';
-import { validateSchema } from '../middlewares/validator';
+import { JEmail, JPassword, JList, JMobile, JString } from './schemas';
+import { validateSchema } from '@src/middlewares/validator';
 
 export const Validators = {
 	/**
-	 * @name create
+	 * @name otp
 	 * @description It validate the request body with the schema.
-	 * @requires displayName, dob, email, password
+	 * @requires mobile
 	 */
-	create: validateSchema(Joi.object().keys({
-		displayName: JString.required(),
-		dob: JString.isoDate(),
-		email: JEmail.required(),
-		password: JPassword.required(),
+	otp: validateSchema(Joi.object().keys({
+		mobile: JMobile.required(),
+		countryCode: JString.default('+91')
+	}), 'body'),
+	/**
+	 * @name verification
+	 * @description It validate the request body with the schema
+	 */
+	verification: validateSchema(Joi.object().keys({
+		id: JString.required(),
+		otp: JString.regex(/\b\d{4}\b/).required()
 	}), 'body'),
 	/**
 	 * @name forgot

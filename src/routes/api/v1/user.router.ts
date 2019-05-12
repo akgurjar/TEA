@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { userController } from '../../../controllers';
-import * as Validators from '../../../validators';
+import { userController } from '@src/controllers';
+import * as Validators from '@src/validators';
 import { authenticate } from 'passport';
+import { extractClientDetails } from '@src/middlewares';
 
 const router: Router = Router();
 
@@ -19,15 +20,17 @@ const entityRouter = Router();
 
 entityRouter.route('/')
 .get(userController.fetchDetails)
-.post(userController.fetchDetails);
+.patch(userController.update);
 
 // Access user with id
 secureRouter.use('/:id', Validators.Common.entity, entityRouter);
 
 // authenticate user
-router.post('/authenticate', Validators.User.login, userController.login);
+router.post('/authenticate', Validators.User.otp, userController.sendOtp);
 
-router.post('/', Validators.User.create, userController.create);
+// router.post('/', Validators.User.otp, userController.sendOtp);
+
+router.post('/verify', Validators.User.verification, extractClientDetails, userController.verifyOtp);
 
 router.use('/', authenticate('token', { session: false }), secureRouter);
 

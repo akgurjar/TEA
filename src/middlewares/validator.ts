@@ -1,6 +1,6 @@
 import { JoiObject, validate } from 'joi';
 import { Request, Response, NextFunction } from 'express';
-import { ResponseError, Respond } from '../utils';
+import { ResponseError, Respond } from '@src/utils';
 type DataResolver = string | ((req: Request) => any);
 
 export function validateSchema(schema: JoiObject, dataResolver: DataResolver) {

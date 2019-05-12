@@ -1,23 +1,25 @@
 import { Schema } from 'mongoose';
-import * as Service from '../../service';
+import * as Service from '@src/service';
 
 export const userSchema = new Schema({
 	displayName: {
 		type: String,
 	},
+	displayPicture: {
+		type: String,
+	},
+	mobile: {
+		type: String,
+		required: true
+	},
+	countryCode: {
+		type: String,
+		required: true
+	},
 	dob: {
 		type: Date,
 	},
 	email: {
-		required: true,
-		type: String,
-		unique: true,
-	},
-	password: {
-		required: true,
-		type: String,
-	},
-	photoUrl: {
 		type: String,
 	},
 	status: {
@@ -33,15 +35,16 @@ export const userSchema = new Schema({
 	timestamps: true,
 });
 
-userSchema.methods.verifyPassword = Service.verifyPassword;
+// userSchema.methods.verifyPassword = Service.verifyPassword;
 userSchema.methods.existsId = Service.existsId;
 userSchema.methods.exists = Service.exists;
+userSchema.index({mobile: 1, countryCode: 1});
 
 userSchema.pre('save', function(this: any, next: () => void) {
-	Service.passwordHook.call(this).then(() => {
-		if (!this.uniqueId) {
-			this.uniqueId = `USR${++global.counters.user}`;
-		}
-		next();
-	});
+	if (!this.uniqueId) {
+		this.uniqueId = `USR${++global.counters.user}`;
+	}
+	next();
+	// Service.passwordHook.call(this).then(() => {
+	// });
 });

@@ -1,6 +1,6 @@
 
-import { Admin, User } from '../models';
-import * as Service from '../service';
+import { Admin, User } from '@src/models';
+import * as Service from '@src/service';
 import { Console } from './logger.util';
 
 export const Bootstrap: App.Bootstrap = {

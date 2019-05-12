@@ -1,7 +1,6 @@
-import { Router, Response, NextFunction } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import v1 from './v1';
-import { ResponseError, Respond } from '../../utils';
-import { Request } from 'express-serve-static-core';
+import { ResponseError, Respond } from '@src/utils';
 
 // create Router
 const router: Router = Router();

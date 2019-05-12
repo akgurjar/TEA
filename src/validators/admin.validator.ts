@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
 import { JEmail, JPassword } from './schemas';
-import { validateSchema } from '../middlewares/validator';
+import { validateSchema } from '@src/middlewares';
 
 export const Validators = {
 	forgot: validateSchema(Joi.object().keys({

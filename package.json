@@ -3,10 +3,10 @@
 	"version": "1.0.0",
 	"description": "A Boilerplate Code for a Express App with support of Typescript.",
 	"scripts": {
-		"start": "NODE_ENV=production ts-node ./src/bin/server.ts --fast",
-		"dev": "NODE_ENV=development ts-node ./src/bin/server.ts --fast",
-		"stag": "NODE_ENV=stagging ts-node ./src/bin/server.ts --fast",
-		"local": "NODE_ENV=local ts-node-dev ./src/bin/server.ts",
+		"start": "NODE_ENV=production ts-node -r tsconfig-paths/register ./src/bin/server.ts --fast",
+		"dev": "NODE_ENV=development ts-node -r tsconfig-paths/register ./src/bin/server.ts --fast",
+		"stag": "NODE_ENV=stagging ts-node -r tsconfig-paths/register ./src/bin/server.ts --fast",
+		"local": "NODE_ENV=local ts-node-dev -r tsconfig-paths/register ./src/bin/server.ts",
 		"lint": "tslint -p tsconfig.json"
 	},
 	"repository": "https://github.com/akgurjar/TEA.git",
@@ -31,6 +31,8 @@
 		"@types/passport-jwt": "^3.0.1",
 		"@types/passport-local": "^1.0.33",
 		"@types/serve-favicon": "^2.2.30",
+		"@types/twilio": "^0.0.10",
+		"@types/uuid": "^3.4.4",
 		"bcrypt": "^3.0.3",
 		"body-parser": "^1.18.2",
 		"cookie-parser": "^1.4.3",
@@ -47,9 +49,11 @@
 		"passport-local": "^1.0.0",
 		"serve-favicon": "^2.4.5",
 		"ts-node": "7.0.1",
-		"tsconfig-paths": "^3.7.0",
+		"tsconfig-paths": "^3.8.0",
 		"tslint": "^5.12.1",
+		"twilio": "^3.30.3",
 		"typescript": "^3.2.2",
+		"uuid": "^3.3.2",
 		"winston": "^3.2.1"
 	},
 	"devDependencies": {

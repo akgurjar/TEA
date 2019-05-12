@@ -1,9 +1,12 @@
-import { sign, verify } from 'jsonwebtoken';
+import { sign, verify, SignOptions } from 'jsonwebtoken';
 import { environment } from './env.util';
 
-export function genToken(payload: {[key: string]: any}) {
-	console.log(payload, environment.AUTH_TOKEN_SECRET);
-	return sign(payload, environment.AUTH_TOKEN_SECRET);
+export function genToken(payload: {[key: string]: any}, expiresIn?: number) {
+	const options: SignOptions = {};
+	if (expiresIn) {
+		options['expiresIn'] = expiresIn
+	}
+	return sign(payload, environment.AUTH_TOKEN_SECRET, options);
 }
 
 export function genMailToken(payload: {[key: string]: any}) {

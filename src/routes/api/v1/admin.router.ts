@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { adminController } from '../../../controllers';
-import * as Validators from '../../../validators';
+import { adminController } from '@src/controllers';
+import * as Validators from '@src/validators';
 import { authenticate } from 'passport';
 
 const router: Router = Router();

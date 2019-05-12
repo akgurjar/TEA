@@ -19,9 +19,7 @@
             "./typings/index.d.ts"
         ],
         "paths": {
-            "~/*": [
-                "src/*"
-            ]
+            "@src/*": ["src/*"]
         }
     },
     "exclude": [

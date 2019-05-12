@@ -1,10 +1,10 @@
 import { Response, Request, NextFunction } from 'express';
-import { ResponseError, Respond, Mailer, Console } from '../utils';
+import { ResponseError, Respond, Mailer, Console } from '@src/utils';
 import { authenticate } from 'passport';
-import { TOKEN, ACCOUNT, ERROR } from '../constants';
+import { TOKEN, ACCOUNT, ERROR } from '@src/constants';
 // import { ERROR } from '../constants';
-import { Admin } from '../models/admin';
-import * as Service from '../service';
+import { Admin } from '@src/models/admin';
+import * as Service from '@src/service';
 
 export const adminController = {
 	login(req: Request, res: Response, next: NextFunction) {

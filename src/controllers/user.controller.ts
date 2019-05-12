@@ -1,25 +1,42 @@
 import { Response, Request, NextFunction } from 'express';
-import { Respond, ResponseError, Console } from '../utils';
-import { authenticate } from 'passport';
-import { User } from '../models/user';
-import * as Service from '../service';
-import { ERROR, ACCOUNT, TOKEN } from '../constants';
+import { Respond, ResponseError, Console } from '@src/utils';
+// import { authenticate } from 'passport';
+import { User } from '@src/models/user';
+import * as Service from '@src/service';
+import { ACCOUNT, TOKEN } from '@src/constants';
 
 export const userController = {
-	login(req: Request, res: Response, next: NextFunction) {
-		const respond = new Respond(res);
-		authenticate('user-login', (error: ResponseError, token, info) => {
-			if (error) {
-				respond.error(error);
-			} else {
-				respond.success(info.message, {token});
-			}
-		})(req, res, next);
+	async sendOtp(req: Request, res: Response, next: NextFunction) {
+		const { mobile, countryCode } = req.data as Api.UserSignInData;
+		try {
+			const result = await Service.sendSignInOtp(mobile, countryCode);
+			Respond.success(res, 'OTP message sent successfully', result.uniqueId);
+		} catch(err) {
+			next(err);
+		}
 	},
-	validateToken(req: Request, res: Response) {
+	async verifyOtp(req: Request, res: Response, next: NextFunction) {
+		const { id, otp } = req.data as Api.UserVerificationData;
+		try {
+			const result = await Service.verifyUser(id, otp, req);
+			Respond.success(res, '', result);
+		} catch(err) {
+			next(err);
+		}
+	},
+	// async login(req: Request, res: Response, next: NextFunction) {
+	// 	const { mobile } = req.data as Api.UserSignInData;
+	// 	try {
+	// 		const result = await Service.signIn(User, {mobile}, req);
+	// 		Respond.success(res, 'Login Successfully', result);
+	// 	} catch(error) {
+	// 		next(error);
+	// 	}
+	// },
+	async validateToken(req: Request, res: Response) {
 		res.sendStatus(200);
 	},
-	fetchProfile(req: Request, res: Response) {
+	async fetchProfile(req: Request, res: Response) {
 		const respond = new Respond(res);
 		if (req.user && req.user.ref === 'users') {
 			Service.details(User, req.user._id)
@@ -32,7 +49,7 @@ export const userController = {
 			respond.error(new ResponseError(401, TOKEN.INVALID));
 		}
 	},
-	fetchDetails(req: Request, res: Response) {
+	async fetchDetails(req: Request, res: Response) {
 		const respond = new Respond(res);
 		if (req.user && req.user.ref === 'admins') {
 			Service.details(User, req.data.id)
@@ -45,18 +62,26 @@ export const userController = {
 			respond.error(new ResponseError(401, TOKEN.INVALID));
 		}
 	},
-	create(req: Request, res: Response, next: NextFunction) {
-		Service.save(User, req.data).then((status: boolean) => {
+	async create(req: Request, res: Response, next: NextFunction) {
+		try {
+			console.log(req.data);
+			const status = await Service.save(User, req.data);
 			if (status) {
-				// console.log(status);
 				Respond.success(res, ACCOUNT.CREATED, null);
 			}
-		}).catch((error: any) => {
-			// console.log(error);
-			Respond.error(res, new ResponseError(500, ERROR.INTERNAL));
-		});
+		} catch (error) {
+			next(error);
+		}
+		// .then((status: boolean) => {
+		// 	if (status) {
+		// 		// console.log(status);
+		// 	}
+		// }).catch((error: any) => {
+		// 	// console.log(error);
+		// 	Respond.error(res, new ResponseError(500, ERROR.INTERNAL));
+		// });
 	},
-	list(req: Request, res: Response) {
+	async list(req: Request, res: Response) {
 		console.log(req.data);
 		const respond = new Respond(res);
 		Service.list(User, req.data).then((result) => {
@@ -66,4 +91,5 @@ export const userController = {
 		});
 		// res.send('Listing');
 	},
+	async update(req: Request, res: Response) {}
 };
