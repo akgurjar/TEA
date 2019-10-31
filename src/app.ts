@@ -1,11 +1,13 @@
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
-import { connect, connection } from 'mongoose';
-import * as ejs from 'ejs';
-import * as express from 'express';
 import * as favicon from 'serve-favicon';
+import * as express from 'express';
 import * as logger from 'morgan';
 import * as path from 'path';
+import * as ejs from 'ejs';
+// import { promisify } from 'util';
+import { MongoError } from 'mongodb';
+import { connect, connection } from 'mongoose';
 import { environment, Bootstrap, DbLoagger, ResponseError, Mailer } from './utils';
 
 import { Request, Application, Response, NextFunction } from 'express';
@@ -14,11 +16,9 @@ import './strategies';
 
 import routes from './routes';
 
-type AppSingleton = App.Singleton<Application>;
-
-export const app: AppSingleton = {
+export const app: App.Singleton<Application> = {
 	instance: express(),
-	async init(this: AppSingleton) {
+	async init() {
 		this.initConfig();
 		await Mailer.init();
 		await this.initDatabase();
@@ -27,7 +27,7 @@ export const app: AppSingleton = {
 	/**
 	 * It is used to setup view engine for templates rendering.
 	 */
-	initViewEngine(this: AppSingleton) {
+	initViewEngine() {
 		this.instance.set('views', path.join(__dirname, '../public'));
 		this.instance.engine('html', ejs.renderFile);
 		this.instance.set('view engine', 'html');
@@ -35,36 +35,37 @@ export const app: AppSingleton = {
 	/**
 	 * Initialize the database connection with MongoDB
 	 */
-	initDatabase(): Promise<void> {
-		return new Promise<void>((resolve, reject) => {
-			connection.once('open', async () => {
-				DbLoagger.info('Database Connected');
-				await Bootstrap.init();
-				resolve();
-			});
-			try {
-				connect(environment.MONGODB_URI, {useNewUrlParser: true});
-			} catch (error) {
-				reject(error);
+	async initDatabase(): Promise<void> {
+		connect(environment.MONGODB_URI, {
+			useCreateIndex: true,
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		}, (err?: MongoError) => {
+			if (err) {
+				throw(new Error(err.message));
 			}
 		});
+		DbLoagger.info('Connecting Database');
+		await new Promise(connection.once.bind(connection, 'open'));
+		DbLoagger.info('Database Connected');
+		await Bootstrap.init();
 	},
 	/**
 	 * Initialize App Configurations for favicon, logger, cookie and body parser
 	 */
-	initConfig(this: AppSingleton) {
+	initConfig() {
 		this.initViewEngine();
-		this.instance.use(favicon(path.join(__dirname, '../public/client', 'favicon.png')));
+		this.instance.use(favicon(path.join(process.cwd(), 'public/client', 'favicon.png')));
 		this.instance.use(logger('dev'));
 		this.instance.use(bodyParser.json());
 		this.instance.use(bodyParser.urlencoded({ extended: false }));
 		this.instance.use(cookieParser());
 	},
-	initRoutes(this: AppSingleton) {
+	initRoutes() {
 		this.instance.use('/', routes);
-		this.instance.use('/admin', express.static(path.join(__dirname, '../public/admin')));
-		this.instance.use('/templates', express.static(path.join(__dirname, '../public/templates')));
-		this.instance.use(express.static(path.join(__dirname, '../public/client')));
+		this.instance.use('/admin', express.static(path.join(process.cwd(), 'public/admin')));
+		this.instance.use('/templates', express.static(path.join(process.cwd(), 'public/templates')));
+		this.instance.use(express.static(path.join(process.cwd(), 'public/client')));
 
 		this.instance.use((req: Request, res: Response, next: NextFunction) => {
 			next(new ResponseError(404, 'Not Found'));

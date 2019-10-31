@@ -1,8 +1,8 @@
 
 import { createTransport } from 'nodemailer';
-import { Console } from './logger.util';
-import { renderFile } from 'ejs';
 import { join } from 'path';
+import { renderFile, Data } from 'ejs';
+import { Console } from './logger.util';
 import { environment } from './env.util';
 
 export const Mailer: App.Mailer = {
@@ -31,9 +31,9 @@ export const Mailer: App.Mailer = {
 		Console.info(info);
 		return;
 	},
-	async genTemplate(file: string, data: any): Promise<string> {
+	async genTemplate(file: string, data: Data): Promise<string> {
 		const templatePath = join(process.cwd(), 'public/templates', file);
-		const templateHtml = await renderFile(templatePath, data);
+		const templateHtml = await renderFile(templatePath, data, {});
 		return templateHtml as string;
 	},
 };

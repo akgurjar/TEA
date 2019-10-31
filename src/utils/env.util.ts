@@ -24,7 +24,7 @@ switch (ENVIRONMENT) {
 }
 
 function envConfig(configPath: string) {
-	const envPath = join(__dirname, '../../environments', configPath);
+	const envPath = join(process.cwd(), 'environments', configPath);
 	if (existsSync(envPath)) {
 		config({ path: envPath });
 	} else {
@@ -34,13 +34,4 @@ function envConfig(configPath: string) {
 	}
 }
 
-export const environment = {
-	get MONGODB_URI(): string { return process.env.MONGODB_URI; },
-	get PORT(): number { return process.env.PORT as any; },
-	get AUTH_TOKEN_SECRET(): string { return process.env.AUTH_TOKEN_SECRET; },
-	get MAIL_TOKEN_SECRET(): string { return process.env.MAIL_TOKEN_SECRET; },
-	get SALT_ROUND(): number { return process.env.SALT_ROUND as any; },
-	get ENC() { return process.env.ENC; },
-	get SENDER_EMAIL() { return process.env.SENDER_EMAIL; },
-	get SENDER_PASSWORD() { return process.env.SENDER_EMAIL; }
-};
+export const environment: Environment = process.env as Environment;

@@ -2,6 +2,7 @@
 import { Admin, User } from '@src/models';
 import * as Service from '@src/service';
 import { Console } from './logger.util';
+import { environment } from './env.util';
 
 export const Bootstrap: App.Bootstrap = {
 	async init(this: App.Bootstrap) {
@@ -14,9 +15,9 @@ export const Bootstrap: App.Bootstrap = {
 	async bootstrapAdmin() {
 		if (!await Service.exists(Admin, {})) {
 			await Service.save(Admin , {
-				displayName: 'Rcc Admin',
-				email: 'admin@gmail.com',
-				password: 'asdfghjkl',
+				displayName: environment.SUPER_ADMIN_NAME,
+				email: environment.SUPER_ADMIN_EMAIL,
+				password: environment.SUPER_ADMIN_PASSWORD,
 			});
 			Console.info('Admin Account Created');
 		} else {

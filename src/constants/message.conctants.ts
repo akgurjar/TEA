@@ -15,7 +15,7 @@ export const ERROR = {
 };
 
 export const TOKEN = {
+	EXPIRED: 'Token is expired.',
 	INVALID: 'Token is not valid.',
 	VALID: 'Token is verified.',
-	EXPIRED: 'Token is expired.'
 };

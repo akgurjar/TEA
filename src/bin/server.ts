@@ -8,7 +8,7 @@ const debug = Debug('efarmer-app:server');
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(environment.PORT || '3000');
+const port = normalizePort(environment.PORT);
 app.instance.set('port', port);
 
 /**
