@@ -1,89 +1,139 @@
-import { app } from '@src/app';
+// import { app } from '@src/app';
 import { Server } from 'http';
 import * as Debug from 'debug';
-import { environment, Console } from '@src/utils';
-const debug = Debug('efarmer-app:server');
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
+import * as favicon from 'serve-favicon';
+import * as logger from 'morgan';
+import * as path from 'path';
+import * as ejs from 'ejs';
+// import { promisify } from 'util';
+import { MongoError } from 'mongodb';
+import { connect, connection } from 'mongoose';
+import { environment, Console, DbLoagger, Bootstrap, Mailer } from '@src/utils';
 
-/**
- * Get port from environment and store in Express.
- */
+import appRoutes from '@app/app.routes';
 
-const port = normalizePort(environment.PORT);
-app.instance.set('port', port);
+const debug = Debug('tea:server');
 
-/**
- * Create HTTP server.
- */
+class Application {
+	/**
+	 * @class Application
+	 * @description A function to create http server and attach application instance to it.
+	 */
+	static init() {
+		const app = new Application();
+		const server = new Server(app.instance);
+		server.on('listening', () => {
+			const addr = server.address();
+			const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+			debug('Listening on ' + bind);
+		});
+		server.on('error', (error: any) => {
+			if (error.syscall !== 'listen') {
+				throw error;
+			}
+			const bind: any = typeof app.port === 'string' ? 'Pipe ' + app.port : 'Port ' + app.port;
 
-const server: Server = new Server(app.instance);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-app.init().then(() => {
-	server.listen(port, () => {
-		Console.info(`Listening on port ${port}`);
-	});
-});
-server.on('error', onError);
-server.on('listening', onListening);
-
-// function serverHandler(req: IncomingMessage, res: ServerResponse){
-// 	res.end('Hello from server');
-// }
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val: any) {
-	const portNumber = parseInt(val, 10);
-
-	if (isNaN(portNumber)) {
-		// named pipe
-		return val;
+			// handle specific listen errors with friendly messages
+			switch (error.code) {
+				case 'EACCES':
+					Console.error(bind + ' requires elevated privileges');
+					process.exit(1);
+				// break;
+				case 'EADDRINUSE':
+					Console.error(bind + ' is already in use');
+					process.exit(1);
+				// break;
+				default:
+					throw error;
+			}
+		});
+		app.load().then(() => {
+			server.listen(app.port, () => {
+				Console.info(`Server Listening on port <${app.port}>`);
+			});
+		});
 	}
 
-	if (portNumber >= 0) {
-		// port number
-		return portNumber;
+	/**
+	 * @class Application
+	 * @description A instance of express application
+	 */
+	instance = express();
+	get port() {
+		return this.instance.get('port');
 	}
+	constructor() {
+		this.instance.set('port', this.normalizePort());
+	}
+	/**
+	 * @description Normalize a port into a number, string, or false.
+	 */
+	normalizePort() {
+		const port: number = parseInt(environment.PORT, 10);
 
-	return false;
+		if (isNaN(port)) {
+			// named pipe
+			return environment.PORT;
+		}
+
+		if (port >= 0) {
+			// port number
+			return port;
+		}
+		return false;
+	}
+	async load() {
+		this.initConfig();
+		await Mailer.init();
+		await this.initDatabase();
+		this.instance.use(appRoutes);
+	}
+	/**
+	 * It is used to setup view engine for templates rendering.
+	 */
+	initViewEngine() {
+		this.instance.set('views', path.join(__dirname, '../public'));
+		this.instance.engine('html', ejs.renderFile);
+		this.instance.set('view engine', 'html');
+	}
+	/**
+	 * Initialize the database connection with MongoDB
+	 */
+	async initDatabase(): Promise<void> {
+		connect(environment.MONGODB_URI, {
+			useCreateIndex: true,
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		}, (err?: MongoError) => {
+			if (err) {
+				throw (new Error(err.message));
+			}
+		});
+		DbLoagger.info('Connecting Database');
+		await new Promise(connection.once.bind(connection, 'open'));
+		DbLoagger.info('Database Connected');
+		await Bootstrap.init();
+	}
+	/**
+	 * Initialize App Configurations for favicon, logger, cookie and body parser
+	 */
+	initConfig() {
+		this.initViewEngine();
+		this.instance.use(favicon(path.join(process.cwd(), 'public/client', 'favicon.png')));
+		this.instance.use(logger('dev'));
+		this.instance.use(bodyParser.json());
+		this.instance.use(bodyParser.urlencoded({ extended: false }));
+		this.instance.use(cookieParser());
+	}
 }
 
-/**
- * Event listener for HTTP server 'error' event.
- */
-
-function onError(error: any) {
-	if (error.syscall !== 'listen') {
-		throw error;
-	}
-
-	// const bind: any = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
-
-	// handle specific listen errors with friendly messages
-	switch (error.code) {
-	case 'EACCES':
-		// console.error(bind + ' requires elevated privileges');
-		process.exit(1);
-		break;
-	case 'EADDRINUSE':
-		// console.error(bind + ' is already in use');
-		process.exit(1);
-		break;
-	default:
-	 	throw error;
-	}
-}
-
-/**
- * Event listener for HTTP server 'listening' event.
- */
-
-function onListening() {
-	const addr = server.address();
-	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-	debug('Listening on ' + bind);
+try {
+	// Initialize Application
+	Application.init();
+} catch (err) {
+	// Handle application errors with friendly messages
+	Console.error(err.message);
 }

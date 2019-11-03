@@ -8,6 +8,7 @@ import { environment, Console, ResponseError } from '@src/utils';
 // import * as Service from '../service';
 // import { Request } from 'express';
 // import { Model } from 'mongoose';
+import { App } from '@app/app.interface';
 
 use('token', new JwtStrategy({
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

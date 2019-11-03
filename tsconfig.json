@@ -16,10 +16,11 @@
         "target": "es6",
         "typeRoots" : [
             "./node_modules/@types",
-            "./typings/index.d.ts"
+            "./typings"
         ],
         "paths": {
-            "@src/*": ["src/*"]
+            "@src/*": ["src/*"],
+            "@app/*": ["src/app/*"]
         }
     },
     "exclude": [

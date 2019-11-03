@@ -4,6 +4,7 @@ import { join } from 'path';
 import { renderFile, Data } from 'ejs';
 import { Console } from './logger.util';
 import { environment } from './env.util';
+import { App } from '@app/app.interface';
 
 export const Mailer: App.Mailer = {
 	account: null,

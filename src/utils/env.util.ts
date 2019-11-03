@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
 import { existsSync } from 'fs';
 import { join } from 'path';
+// import { Environment } from 'node';
 
 export const ENVIRONMENT = process.env.NODE_ENV;
 
@@ -34,4 +35,4 @@ function envConfig(configPath: string) {
 	}
 }
 
-export const environment: Environment = process.env as Environment;
+export const environment: any = process.env;

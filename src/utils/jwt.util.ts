@@ -4,7 +4,7 @@ import { environment } from './env.util';
 export function genToken(payload: {[key: string]: any}, expiresIn?: number) {
 	const options: SignOptions = {};
 	if (expiresIn) {
-		options['expiresIn'] = expiresIn
+		options.expiresIn = expiresIn;
 	}
 	return sign(payload, environment.AUTH_TOKEN_SECRET, options);
 }
