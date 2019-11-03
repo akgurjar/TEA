@@ -81,10 +81,10 @@ class DaoManager {
 						pageSize,
 					],
 				},
-				pageIndex,
-				pageSize,
 				total: 1,
 			},
+		}, {
+			$addFields: { pageIndex, pageSize }
 		});
 	}
 	async signin(

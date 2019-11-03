@@ -122,6 +122,7 @@ class Application {
 	 */
 	initConfig() {
 		this.initViewEngine();
+		this.instance.use(express.static(path.join(process.cwd(), 'public/client')));
 		this.instance.use(favicon(path.join(process.cwd(), 'public/client', 'favicon.png')));
 		this.instance.use(logger('dev'));
 		this.instance.use(bodyParser.json());

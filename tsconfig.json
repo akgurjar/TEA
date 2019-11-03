@@ -20,7 +20,13 @@
         ],
         "paths": {
             "@src/*": ["src/*"],
-            "@app/*": ["src/app/*"]
+            "@app/*": ["src/app/*"],
+            "@api/*": ["src/app/api/*"],
+            "@utils/*": ["src/utils/*"],
+            "@database/*": ["src/database/*"],
+            "@constants/*": ["src/app/constants/*"],
+            "@validators/*": ["src/app/validators/*"],
+            "@middlewares/*": ["src/app/middlewares/*"],
         }
     },
     "exclude": [

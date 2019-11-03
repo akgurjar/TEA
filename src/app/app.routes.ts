@@ -1,15 +1,11 @@
 import { Router, Request, NextFunction, Response } from 'express';
 import { ResponseError } from '@src/utils';
-import publicRoutes from './static/static.routes';
 import { apiRoutes } from './api/api.routes';
 // create Router
 const router: Router = Router();
 
 // Use api routes
 router.use(apiRoutes.path, apiRoutes.router);
-
-// Use public routes
-router.use(publicRoutes);
 
 // throw error to next error handler route
 router.use((req: Request, res: Response, next: NextFunction) => {
@@ -23,7 +19,7 @@ router.use((err: ResponseError, req: Request, res: Response, next: NextFunction)
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
 	// render the error page
 	res.status(err.status || 500);
-	res.render('client/error');
+	res.render('client/index');
 });
 
 export default router;

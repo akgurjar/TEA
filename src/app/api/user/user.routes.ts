@@ -10,7 +10,9 @@ const router: Router = Router();
 const secureRouter: Router = Router();
 
 // Get Users List
-secureRouter.get('/', userValidators.list, userController.list);
+secureRouter.route('/')
+	.post(userController.register)
+	.get(userValidators.list, userController.list);
 
 // Get logined user profile
 secureRouter.get('/profile', userController.profile);
@@ -23,7 +25,7 @@ entityRouter.route('/')
 	.patch(userController.update);
 
 // Access user with id
-secureRouter.use('/:id', entityRouter);
+// secureRouter.use('/:id', entityRouter);
 
 // Accept user signin requests
 // router.post('/signin', userController.loginHandler);
@@ -34,4 +36,4 @@ secureRouter.use('/:id', entityRouter);
 
 router.use('/', authenticate('token', { session: false }), secureRouter);
 
-export const userRoutes = { path: 'users', router };
+export const userRoutes = { path: '/users', router };

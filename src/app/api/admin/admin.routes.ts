@@ -34,4 +34,4 @@ secureRouter.use('/:id', entityRouter);
 
 router.use('/', authenticate('token', { session: false }), secureRouter);
 
-export const adminRoutes = { path: 'admins', router };
+export const adminRoutes = { path: '/admins', router };
