@@ -1,7 +1,6 @@
 import * as express from 'express';
 import { UserType } from '@constants/user.constants';
 import { ResponseError } from '@src/utils';
-import { JoiObject } from 'joi';
 
 export namespace Api {
 	export interface ListingResult {

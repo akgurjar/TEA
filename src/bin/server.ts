@@ -1,16 +1,14 @@
 // import { app } from '@src/app';
 import { Server } from 'http';
 import * as Debug from 'debug';
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
+import express from 'express';
 import * as cookieParser from 'cookie-parser';
 import * as favicon from 'serve-favicon';
 import * as logger from 'morgan';
 import * as path from 'path';
 import * as ejs from 'ejs';
 // import { promisify } from 'util';
-import { MongoError } from 'mongodb';
-import { connect, connection } from 'mongoose';
+import { connect } from 'mongoose';
 import { environment, Console, DbLoagger, Bootstrap, Mailer } from '@src/utils';
 
 import appRoutes from '@app/app.routes';
@@ -103,17 +101,8 @@ class Application {
 	 * Initialize the database connection with MongoDB
 	 */
 	async initDatabase(): Promise<void> {
-		connect(environment.MONGODB_URI, {
-			useCreateIndex: true,
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		}, (err?: MongoError) => {
-			if (err) {
-				throw (new Error(err.message));
-			}
-		});
 		DbLoagger.info('Connecting Database');
-		await new Promise(connection.once.bind(connection, 'open'));
+		await connect(environment.MONGODB_URI);
 		DbLoagger.info('Database Connected');
 		await Bootstrap.init();
 	}
@@ -125,8 +114,8 @@ class Application {
 		this.instance.use(express.static(path.join(process.cwd(), 'public/client')));
 		this.instance.use(favicon(path.join(process.cwd(), 'public/client', 'favicon.png')));
 		this.instance.use(logger('dev'));
-		this.instance.use(bodyParser.json());
-		this.instance.use(bodyParser.urlencoded({ extended: false }));
+		this.instance.use(express.json());
+		this.instance.use(express.urlencoded({ extended: true }));
 		this.instance.use(cookieParser());
 	}
 }
