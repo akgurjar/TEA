@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { authenticate } from 'passport';
-import { userController } from './user.controller';
-import { userValidators } from './user.validators';
+import { userController } from './user.controller.js';
+import { userValidators } from './user.validators.js';
+import { auth } from '#middlewares/auth.middleware';
+import { TokenType } from '#app/app.constants';
 
 // Create router
 const router: Router = Router();
@@ -10,7 +11,8 @@ const router: Router = Router();
 const secureRouter: Router = Router();
 
 // Get Users List
-secureRouter.route('/')
+secureRouter
+	.route('/')
 	.post(userController.register)
 	.get(userValidators.list, userController.list);
 
@@ -20,9 +22,7 @@ secureRouter.get('/profile', userController.profile);
 // Entity Router to handle signle user routes
 const entityRouter = Router();
 
-entityRouter.route('/')
-	.get(userController.detail)
-	.patch(userController.update);
+entityRouter.route('/').get(userController.detail).patch(userController.update);
 
 // Access user with id
 // secureRouter.use('/:id', entityRouter);
@@ -34,6 +34,6 @@ entityRouter.route('/')
 
 // router.post('/verify', Validators.User.verification, extractClientDetails, userController.verifyOtp);
 
-router.use('/', authenticate('token', { session: false }), secureRouter);
+router.use('/', auth(TokenType.ACCESS), secureRouter);
 
 export const userRoutes = { path: '/users', router };

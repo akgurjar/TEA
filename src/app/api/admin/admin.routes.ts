@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { authenticate } from 'passport';
-import { adminController } from './admin.controller';
+import { adminController } from './admin.controller.js';
+import { auth } from '#app/middlewares/auth.middleware';
+import { TokenType } from '#app/app.constants';
 // import { adminValidators } from './admin.validators';
 
 // Create router
@@ -18,7 +19,8 @@ secureRouter.get('/profile', adminController.profile);
 // Entity Router to handle signle admin routes
 const entityRouter = Router();
 
-entityRouter.route('/')
+entityRouter
+	.route('/')
 	.get(adminController.detail)
 	.patch(adminController.update);
 
@@ -32,6 +34,6 @@ secureRouter.use('/:id', entityRouter);
 
 // router.post('/verify', Validators.User.verification, extractClientDetails, userController.verifyOtp);
 
-router.use('/', authenticate('token', { session: false }), secureRouter);
+router.use('/', auth(TokenType.ACCESS), secureRouter);
 
 export const adminRoutes = { path: '/admins', router };

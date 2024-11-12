@@ -1,18 +1,17 @@
 {
-    "compilerOptions": {
-        "baseUrl": "src/",
-        "outDir": "dist/",
-        "module": "NodeNext",
-        "moduleResolution": "NodeNext",
-        "noImplicitAny": true,
-        "noUnusedLocals": true,
-        "pretty": true,
-        "removeComments": false,
-        "sourceMap": true,
-        "target": "ESNext",
-        "typeRoots" : [
-            "./node_modules/@types",
-            "./typings"
-        ]
-    }
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {}
+  },
+  "include": ["src/**/*", "eslint.config.js"],
+  "exclude": ["node_modules", "dist"]
 }

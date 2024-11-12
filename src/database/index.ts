@@ -1,1 +1,1 @@
-export * from './dao-manager';
+export * from './mongo/mongo.dao.js';

@@ -1,3 +1,2 @@
-
-export * from './validator';
-export * from './client-details';
+export * from './validator.middleware.js';
+export * from './client.middleware.js';

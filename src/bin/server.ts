@@ -1,129 +1,43 @@
-// import { app } from '@src/app';
 import { Server } from 'http';
-import * as Debug from 'debug';
-import express from 'express';
-import * as cookieParser from 'cookie-parser';
-import * as favicon from 'serve-favicon';
-import * as logger from 'morgan';
-import * as path from 'path';
-import * as ejs from 'ejs';
-// import { promisify } from 'util';
-import { connect } from 'mongoose';
-import { environment, Console, DbLoagger, Bootstrap, Mailer } from '@src/utils';
 
-import appRoutes from '@app/app.routes';
+import { normalize } from '../utils/port.util.js';
+import { app } from '../app/app.js';
 
-const debug = Debug('tea:server');
+app.set('PORT', normalize(process.env.PORT));
 
-class Application {
-	/**
-	 * @class Application
-	 * @description A function to create http server and attach application instance to it.
-	 */
-	static init() {
-		const app = new Application();
-		const server = new Server(app.instance);
-		server.on('listening', () => {
-			const addr = server.address();
-			const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-			debug('Listening on ' + bind);
-		});
-		server.on('error', (error: any) => {
-			if (error.syscall !== 'listen') {
-				throw error;
-			}
-			const bind: any = typeof app.port === 'string' ? 'Pipe ' + app.port : 'Port ' + app.port;
+const server = new Server(app);
 
-			// handle specific listen errors with friendly messages
-			switch (error.code) {
-				case 'EACCES':
-					Console.error(bind + ' requires elevated privileges');
-					process.exit(1);
-				// break;
-				case 'EADDRINUSE':
-					Console.error(bind + ' is already in use');
-					process.exit(1);
-				// break;
-				default:
-					throw error;
-			}
-		});
-		app.load().then(() => {
-			server.listen(app.port, () => {
-				Console.info(`Server Listening on port <${app.port}>`);
-			});
-		});
+server.on('listening', () => {
+	const addr = server.address();
+	if (addr) {
+		const bind =
+			typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+		console.info('Listening on ' + bind);
 	}
+});
 
-	/**
-	 * @class Application
-	 * @description A instance of express application
-	 */
-	instance = express();
-	get port() {
-		return this.instance.get('port');
+server.on('error', (error: any) => {
+	if (error.syscall !== 'listen') {
+		throw error;
 	}
-	constructor() {
-		this.instance.set('port', this.normalizePort());
-	}
-	/**
-	 * @description Normalize a port into a number, string, or false.
-	 */
-	normalizePort() {
-		const port: number = parseInt(environment.PORT, 10);
+	const port = app.get('PORT');
+	const bind: any = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
-		if (isNaN(port)) {
-			// named pipe
-			return environment.PORT;
-		}
+	// handle specific listen errors with friendly messages
+	switch (error.code) {
+		case 'EACCES':
+			console.error(bind + ' requires elevated privileges');
+			process.exit(1);
+		// break;
+		case 'EADDRINUSE':
+			console.error(bind + ' is already in use');
+			process.exit(1);
+		// break;
+		default:
+			throw error;
+	}
+});
 
-		if (port >= 0) {
-			// port number
-			return port;
-		}
-		return false;
-	}
-	async load() {
-		this.initConfig();
-		await Mailer.init();
-		await this.initDatabase();
-		this.instance.use(appRoutes);
-	}
-	/**
-	 * It is used to setup view engine for templates rendering.
-	 */
-	initViewEngine() {
-		this.instance.set('views', path.join(__dirname, '../public'));
-		this.instance.engine('html', ejs.renderFile);
-		this.instance.set('view engine', 'html');
-	}
-	/**
-	 * Initialize the database connection with MongoDB
-	 */
-	async initDatabase(): Promise<void> {
-		DbLoagger.info('Connecting Database');
-		await connect(environment.MONGODB_URI);
-		DbLoagger.info('Database Connected');
-		await Bootstrap.init();
-	}
-	/**
-	 * Initialize App Configurations for favicon, logger, cookie and body parser
-	 */
-	initConfig() {
-		this.initViewEngine();
-		this.instance.use(express.static(path.join(process.cwd(), 'public/client')));
-		this.instance.use(favicon(path.join(process.cwd(), 'public/client', 'favicon.png')));
-		this.instance.use(logger('dev'));
-		this.instance.use(express.json());
-		this.instance.use(express.urlencoded({ extended: true }));
-		this.instance.use(cookieParser());
-	}
-}
-
-try {
-	// Initialize Application
-	Application.init();
-} catch (err) {
-	// Handle application errors with friendly messages
-	Console.error(err.message);
-}
+server.listen(app.get('PORT'), () => {
+	console.info(`Server Listening on port <${app.get('PORT')}>`);
+});

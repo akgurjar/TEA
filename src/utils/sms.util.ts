@@ -1,5 +1,5 @@
 
-import * as twilio from 'twilio';
+import twilio from 'twilio';
 
 const accountSID = 'ACafdb90ec8b5223af55f1cd46ebccd214';
 const authToken = '1d1ff91ba6dfe4931d43b2153b93478a';

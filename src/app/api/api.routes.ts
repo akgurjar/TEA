@@ -1,16 +1,16 @@
-import { Router } from 'express';
+import { NextFunction, Router, type Request, type Response } from 'express';
 
-import { adminRoutes } from './admin/admin.routes';
-import { userRoutes } from './user/user.routes';
-import { responseMiddleware } from '@middlewares/response';
-import { Api } from './api.interface';
+import { adminRoutes } from './admin/admin.routes.js';
+import { userRoutes } from './user/user.routes.js';
+import { responseMiddleware } from '#middlewares/response.middleware';
+import { ApiError } from '#utils/error.util';
 
-// create Router
-const router: Router = Router();
+export const path = '/api';
+export const router: Router = Router();
 
 router.use(responseMiddleware);
 
-router.use('/', (req: Api.Request, res: Api.Response) => {
+router.use('/', (req: Request, res: Response) => {
 	res.success('Api is listening');
 });
 
@@ -20,4 +20,14 @@ router.use(adminRoutes.path, adminRoutes.router);
 // Use user routes
 router.use(userRoutes.path, userRoutes.router);
 
-export const apiRoutes = { path: '/api', router };
+// throw error to next error handler route
+router.use((_: Request, __: Response, next: NextFunction) => {
+	next(ApiError.notFound('Not Found'));
+});
+
+router.use((err: ApiError, _: Request, res: Response, __: NextFunction) => {
+	res.status(err.status || 500).json({
+		message: err.message,
+		error: err.error,
+	});
+});

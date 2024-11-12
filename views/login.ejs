@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Typescript Express App</title>
+		<style>
+			html,
+			body {
+				height: 100%;
+			}
+			body {
+				margin: 0;
+				background-color: #f1f1f1;
+				font-family:
+					system-ui,
+					-apple-system,
+					BlinkMacSystemFont,
+					'Segoe UI',
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					'Open Sans',
+					'Helvetica Neue',
+					sans-serif;
+				--primary-color-500: #34495e;
+			}
+			main {
+				min-height: calc(100% - 64px);
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+		</style>
+	</head>
+	<body>
+		<%- include('partials/header') %>
+		<main>
+			<form method="post">
+				<h1>Log In</h1>
+				<label>Email ID</label>
+				<input type="text" placeholder="Enter" required name="email" />
+				<% if(errors.email) { %>
+					<span class="error error--input"><%= errors.email %></span>
+				<% } %>
+				<label>Password</label>
+				<input type="password" placeholder="Enter" required name="password" />
+				<% if(errors.password) { %>
+					<span class="error error--input"><%= errors.password %></span>
+				<% } %>
+				<button type="submit">Submit</button>
+				<% if(errors.common) { %>
+					<span class="error error--common"><%= errors.common %></span>
+				<% } %>
+			</form>
+		</main>
+		<style>
+			form {
+				padding: 24px;
+				display: block;
+				width: fit-content;
+				background-color: #fff;
+				border-radius: 6px;
+				border: 1px solid rgba(0, 0, 0, 0.2);
+			}
+			label,
+			input {
+				display: block;
+				width: 280px;
+				padding: 0 6px;
+				box-sizing: border-box;
+			}
+			label {
+				padding-top: 7px;
+				padding-bottom: 7px;
+				font-weight: 500;
+			}
+			input {
+				height: 36px;
+				border-radius: 4px;
+				margin-bottom: 18px;
+			}
+			button[type='submit'] {
+				margin-top: 12px;
+				height: 32px;
+				width: 100%;
+				padding: 0 12px;
+				color: white;
+				border: 1px solid rgba(0, 0, 0, 0.2);
+				border-radius: 4px;
+				font-weight: 500;
+				font-size: 16px;
+				background-color: var(--primary-color-500);
+			}
+			.error--input {
+				margin-top: -16px;
+			}
+			.error {
+    			display: block;
+				padding: 0 6px;
+				color: red;
+			}
+			.error--common {
+				margin-top: 12px;
+				text-align: center;
+			}
+		</style>
+	</body>
+</html>

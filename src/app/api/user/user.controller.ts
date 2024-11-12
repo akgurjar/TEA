@@ -1,71 +1,33 @@
-import { NextFunction } from 'express';
-import { Api } from '@api/api.interface';
-import { userService } from './user.service';
-import { IUser } from './user.interface';
+import type { Request, Response } from 'express';
+import { userService } from './user.service.js';
+import { ApiError } from '#utils/error.util';
 // import { ResponseError } from '@src/utils';
 // import { TOKEN } from '@src/constants';
 
-/**
- * @description A controller to control user requests
- */
 class UserController {
-	/**
-	 * @description A function to handle user list request
-	 * @param req Express request
-	 * @param res Express response
-	 */
-	list(req: Api.Request, res: Api.Response, next: NextFunction) {
-		userService.list().then((result) => {
-			res.success('Successfull', result);
-		}).catch((err) => {
-			res.error(err);
-		});
+	async list(req: Request, res: Response) {
+		const result = await userService.list(req.query);
+		res.success('Success', result);
 	}
-	/**
-	 * @description A function to handle user register request
-	 * @param req Api request
-	 * @param res Api response
-	 */
-	register(req: Api.Request<IUser>, res: Api.Response, next: NextFunction) {
-		const data = req.data;
-		userService.add(data).then((result) => {
-			res.success('Successfull', result);
-		}).catch((err) => {
-			res.error(err);
-		});
+	async register(req: Request, res: Response) {
+		const data = req.data as IUser.Data;
+		const result = await userService.add(data);
+		res.success('Success', result);
 	}
-	/**
-	 * @description A function to handle user profile request
-	 * @param req Express request
-	 * @param res Express response
-	 */
-	profile(req: Api.Request, res: Api.Response, next: NextFunction) {
+	async profile(req: Request, res: Response) {
 		const user = req.user;
-		userService.detail(user?._id).then((result) => {
-			res.success('Successfull', result);
-		}).catch((err) => {
-			res.error(err);
-		});
+		if (!user) {
+			throw ApiError.unauthorised('User not found');
+		}
+		const result = await userService.detail(user.id);
+		res.success('Success', result);
 	}
-	/**
-	 * @description A function to handle user detail requests
-	 * @param req Express request
-	 * @param res Express response
-	 */
-	detail(req: Api.Request, res: Api.Response) {
-		const { id } = req.data || {};
-		userService.detail(id).then((result) => {
-			res.success('Successfull', result);
-		}).catch((err) => {
-			res.error(err);
-		});
+	async detail(req: Request, res: Response) {
+		const data = req.data as { user: string };
+		const result = await userService.detail(data.user);
+		res.success('Success', result);
 	}
-	/**
-	 * @description A function to handle user update requests
-	 * @param req Express request
-	 * @param res Express response
-	 */
-	update(req: Api.Request, res: Api.Response) {
+	async update(req: Request, res: Response) {
 		//
 	}
 }

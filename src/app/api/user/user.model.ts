@@ -1,35 +1,39 @@
-import { Schema, Model, model } from 'mongoose';
-import { IUserDocument } from './user.interface';
-import { passwordUtil } from '@src/utils/password.util';
+import { Schema, model } from 'mongoose';
+import { passwordUtil } from '#utils/password.util';
 
-const userSchema = new Schema({
-	displayName: {
-		type: String,
+const userSchema = new Schema(
+	{
+		name: {
+			required: true,
+			type: String,
+		},
+		email: {
+			required: true,
+			type: String,
+		},
+		password: {
+			required: true,
+			type: String,
+		},
+		pictureUrl: {
+			type: String,
+		},
+		createdAt: Date,
+		updatedAt: Date,
 	},
-	email: {
-		required: true,
-		type: String,
+	{
+		collection: 'users',
+		timestamps: true,
 	},
-	password: {
-		required: true,
-		type: String,
-	},
-	photoUrl: {
-		type: String,
-	},
-	// tslint:disable-next-line: object-literal-sort-keys
-	createdAt: Date,
-	updatedAt: Date,
-}, {
-	collection: 'users',
-	timestamps: true,
-});
+);
 
 userSchema.methods.verifyPassword = passwordUtil.verify;
 
-userSchema.pre('save', function(this: IUserDocument) {
+userSchema.pre('save', function (this: IUser.Doc) {
 	// Call Password Hook
 	passwordUtil.hook.call(this);
 });
 
-export const UserModel: Model<IUserDocument> = model('users', userSchema);
+export const UserModel = model('users', userSchema);
+
+export type Model = typeof UserModel;
